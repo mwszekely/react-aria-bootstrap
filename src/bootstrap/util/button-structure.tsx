@@ -20,6 +20,11 @@ export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinne
 
     const labelId = useId();
     sizeVariant ??= "md";
+    outsetVariant ??= "inset";
+    fillVariant ??= "filled";
+    themeSpinnerVariant ??= "info";
+    themeVariant ??= "primary";
+
 
     if (isSelected != null) {
         if (isSelected)

@@ -7,6 +7,10 @@ import { PendingSpinner } from "../spinner";
 export const ButtonStructure = forwardRef(function ButtonStructure2({ themeSpinnerVariant, sizeVariant, fillVariant, themeVariant, outsetVariant, isPending, isSelected, isDisabled, isBeingPressed, children, ...props }, ref) {
   const labelId = useId();
   sizeVariant ??= "md";
+  outsetVariant ??= "inset";
+  fillVariant ??= "filled";
+  themeSpinnerVariant ??= "info";
+  themeVariant ??= "primary";
   if (isSelected != null) {
     if (isSelected)
       outsetVariant = isBeingPressed ? "inset" : "inset";
