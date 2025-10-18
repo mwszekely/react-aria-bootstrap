@@ -46,9 +46,10 @@ export interface TextFieldProps {
     //independentInputGroup?: boolean;
     inline?: boolean;
     inputGroup?: boolean;
+    autoComplete?: string;
 }
 
-export function TextField({ text, onChange, validate, label, width, noSpinner, widthUnit, description, inline, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }: TextFieldProps) {
+export function TextField({ text, autoComplete, onChange, validate, label, width, noSpinner, widthUnit, description, inline, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }: TextFieldProps) {
 
     const [optimistic, setOptimistic] = useState("");
     let ref = useRef<HTMLInputElement>(null);
@@ -66,7 +67,21 @@ export function TextField({ text, onChange, validate, label, width, noSpinner, w
         isInvalid,
         validationErrors,
         validationDetails
-    } = useTextField({ type: "text", value: valueUsed, onChange: syncOutput, placeholder, label, inputMode, maxLength, minLength, name, isDisabled: disabled, isReadOnly: readOnly, validate }, ref);
+    } = useTextField({ 
+        type: "text", 
+        value: valueUsed, 
+        onChange: syncOutput, 
+        placeholder, 
+        label, 
+        inputMode, 
+        maxLength, 
+        minLength, 
+        name, 
+        isDisabled: disabled, 
+        isReadOnly: readOnly, 
+        autoComplete,
+        validate 
+    }, ref);
 
     const inALiteralActualInputGroupAlready = useIsInInputGroup();
 
