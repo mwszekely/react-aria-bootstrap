@@ -12,4 +12,4 @@ export interface ButtonStructureProps {
 }
 export declare const ButtonStructure: import("react").ForwardRefExoticComponent<Required<ButtonStructureProps> & {
     children?: import("react").ReactNode | undefined;
-} & import("react").RefAttributes<HTMLDivElement>>;
+} & import("react").RefAttributes<HTMLButtonElement>>;

@@ -16,7 +16,7 @@ export interface ButtonStructureProps {
     isSelected?: boolean | null | undefined;
 }
 
-export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinnerVariant, sizeVariant, fillVariant, themeVariant, outsetVariant, isPending, isSelected, isDisabled, isBeingPressed, children, ...props }: PropsWithChildren<Required<ButtonStructureProps>>, ref: ForwardedRef<HTMLDivElement>) {
+export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinnerVariant, sizeVariant, fillVariant, themeVariant, outsetVariant, isPending, isSelected, isDisabled, isBeingPressed, children, ...props }: PropsWithChildren<Required<ButtonStructureProps>>, ref: ForwardedRef<HTMLButtonElement>) {
 
     const labelId = useId();
     sizeVariant ??= "md";
@@ -42,9 +42,9 @@ export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinne
     );
 
     return (
-        <div {...mergeProps(props, { tabIndex: 0, className })} ref={ref}>
+        <button {...mergeProps(props, { tabIndex: 0, className })} ref={ref}>
             <span id={labelId} className="btn-label">{children}</span>
             <PendingSpinner labelId={labelId} pending={isPending ?? false}  />
-        </div>
+        </button>
     );
 })

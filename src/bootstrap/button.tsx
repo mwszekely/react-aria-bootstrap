@@ -34,7 +34,7 @@ export const ActionButton = forwardRef(function ActionButton({ themeVariant, the
 
     const isPending = (pending || asyncDebounce || syncDebounce || false);
     const isDisabled = (props.isDisabled || isPending);
-    let { buttonProps, isPressed } = useButton({ elementType: 'div', onPress: syncOutput, ...props }, ref);
+    let { buttonProps, isPressed } = useButton({ elementType: 'button', onPress: syncOutput, ...props }, ref);
     let { children, className } = props;
 
     themeVariant = (themeVariant ?? "primary");
