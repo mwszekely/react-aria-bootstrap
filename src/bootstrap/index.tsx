@@ -5,5 +5,7 @@ export { Radio, type RadioProps } from "./radio";
 export { RadioGroup, type RadioGroupProps } from "./radio-group";
 export { Tabs, type TabsProps } from "./tabs";
 export { TagGroup, type TagData, type TagGroupProps } from "./tag-group";
+export { InputGroup, InputGroupText, TextField, TextFieldStructure, type TextFieldProps, type TextFieldStructureProps } from "./text-field";
 export { ToggleButton, type ToggleButtonProps } from "./toggle-button";
 export { ToggleButtonGroup, ToggleButtonGroupItem, type ToggleButtonGroupItemProps, type ToggleButtonGroupProps } from "./toggle-button-group";
+
