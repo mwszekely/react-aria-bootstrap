@@ -1,4 +1,5 @@
 "use strict";
+import { jsx, jsxs } from "react/jsx-runtime";
 import clsx from "clsx";
 import { forwardRef, useId } from "react";
 import { mergeProps } from "react-aria";
@@ -25,5 +26,8 @@ export const ButtonStructure = forwardRef(function ButtonStructure2({ themeSpinn
     isDisabled && "disabled",
     isBeingPressed && "pressing"
   );
-  return /* @__PURE__ */ React.createElement("div", { ...mergeProps(props, { tabIndex: 0, className }), ref }, /* @__PURE__ */ React.createElement("span", { id: labelId, className: "btn-label" }, children), /* @__PURE__ */ React.createElement(PendingSpinner, { labelId, pending: isPending ?? false }));
+  return /* @__PURE__ */ jsxs("div", { ...mergeProps(props, { tabIndex: 0, className }), ref, children: [
+    /* @__PURE__ */ jsx("span", { id: labelId, className: "btn-label", children }),
+    /* @__PURE__ */ jsx(PendingSpinner, { labelId, pending: isPending ?? false })
+  ] });
 });

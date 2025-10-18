@@ -1,5 +1,6 @@
 "use strict";
 "use client";
+import { jsx, jsxs } from "react/jsx-runtime";
 import { useAsyncToSync } from "async-to-sync/react";
 import { useCallback, useState } from "react";
 import { mergeProps, useRadioGroup } from "react-aria";
@@ -39,5 +40,9 @@ export function RadioGroup(props) {
     isReadOnly: readOnly
   });
   const { labelProps, radioGroupProps, descriptionProps, errorMessageProps, isInvalid, validationDetails, validationErrors } = useRadioGroup({ value: v, label }, state);
-  return /* @__PURE__ */ React.createElement("fieldset", { ...mergeProps({ className, style }, { className: "form-radio-group" }, radioGroupProps) }, /* @__PURE__ */ React.createElement("legend", { ...mergeProps({ className: "form-radio-group-label" }, labelProps) }, label), /* @__PURE__ */ React.createElement(RadioContext.Provider, { value: state }, children), isInvalid && /* @__PURE__ */ React.createElement("div", { ...errorMessageProps, style: { color: "red", fontSize: 12 } }, validationErrors.join(" ")));
+  return /* @__PURE__ */ jsxs("fieldset", { ...mergeProps({ className, style }, { className: "form-radio-group" }, radioGroupProps), children: [
+    /* @__PURE__ */ jsx("legend", { ...mergeProps({ className: "form-radio-group-label" }, labelProps), children: label }),
+    /* @__PURE__ */ jsx(RadioContext.Provider, { value: state, children }),
+    isInvalid && /* @__PURE__ */ jsx("div", { ...errorMessageProps, style: { color: "red", fontSize: 12 }, children: validationErrors.join(" ") })
+  ] });
 }

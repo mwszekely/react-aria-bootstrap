@@ -1,5 +1,6 @@
 "use strict";
 "use client";
+import { jsx, jsxs } from "react/jsx-runtime";
 import { useAsyncToSync } from "async-to-sync/react";
 import clsx from "clsx";
 import { useCallback, useId, useRef, useState } from "react";
@@ -44,7 +45,11 @@ export function Checkbox(props) {
     children: props.label
   }, state, ref);
   const { inputProps, labelProps, isDisabled, isInvalid, isPressed, isReadOnly, isSelected, validationDetails, validationErrors } = checkbox;
-  const labelContent = /* @__PURE__ */ React.createElement("label", { ...mergeProps(labelProps, { children: props.label, className: "form-check-label", htmlFor: id }) });
-  const inputContent = /* @__PURE__ */ React.createElement("input", { ...mergeProps(inputProps, { className: clsx("form-check-input", props.themeVariant && `form-check-input-${props.themeVariant}`), type: "checkbox", value: "", id, "aria-label": labelPosition == "hidden" ? props.label : null }) });
-  return /* @__PURE__ */ React.createElement("div", { className: clsx("form-check narrow", labelPosition == "before" && "form-check-reverse", props.inline && "form-check-inline") }, labelPosition == "before" && labelContent, inputContent, labelPosition == "after" && labelContent);
+  const labelContent = /* @__PURE__ */ jsx("label", { ...mergeProps(labelProps, { children: props.label, className: "form-check-label", htmlFor: id }) });
+  const inputContent = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { className: clsx("form-check-input", props.themeVariant && `form-check-input-${props.themeVariant}`), type: "checkbox", value: "", id, "aria-label": labelPosition == "hidden" ? props.label : null }) });
+  return /* @__PURE__ */ jsxs("div", { className: clsx("form-check narrow", labelPosition == "before" && "form-check-reverse", props.inline && "form-check-inline"), children: [
+    labelPosition == "before" && labelContent,
+    inputContent,
+    labelPosition == "after" && labelContent
+  ] });
 }

@@ -1,4 +1,5 @@
 "use strict";
+import { jsx } from "react/jsx-runtime";
 import { useAsyncToSync } from "async-to-sync/react";
 import { createContext, useContext, useRef } from "react";
 import { mergeProps, useToggleButtonGroup, useToggleButtonGroupItem } from "react-aria";
@@ -16,7 +17,7 @@ export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSiz
   let selectedKeys = selected ? [selected] : [];
   const state = useToggleGroupState({ disallowEmptySelection, isDisabled, onSelectionChange: syncOutput, selectedKeys, selectionMode: "single" });
   const { groupProps } = useToggleButtonGroup({ isDisabled, disallowEmptySelection, onSelectionChange: syncOutput, orientation: orientationU, selectedKeys, selectionMode: "single" }, state, ref);
-  return /* @__PURE__ */ React.createElement(ButtonGroupSize.Provider, { value: variantSizeU ?? "md" }, /* @__PURE__ */ React.createElement(ToggleButtonGroupContext.Provider, { value: state }, /* @__PURE__ */ React.createElement("div", { ...mergeProps(groupProps, { className: "btn-group" }), ref }, children)));
+  return /* @__PURE__ */ jsx(ButtonGroupSize.Provider, { value: variantSizeU ?? "md", children: /* @__PURE__ */ jsx(ToggleButtonGroupContext.Provider, { value: state, children: /* @__PURE__ */ jsx("div", { ...mergeProps(groupProps, { className: "btn-group" }), ref, children }) }) });
 }
 export function ToggleButtonGroupItem({ children, id, disabled: disabledU, fillVariant, themeVariant, themeSpinnerVariant, ...props }) {
   const ref = useRef(null);
@@ -24,5 +25,5 @@ export function ToggleButtonGroupItem({ children, id, disabled: disabledU, fillV
   const isDisabled = disabledU || false;
   const { buttonProps, isPressed, isSelected } = useToggleButtonGroupItem({ id, isDisabled }, state, ref);
   const sizeVariant = useContext(ButtonGroupSize);
-  return /* @__PURE__ */ React.createElement(ButtonStructure, { themeVariant: themeVariant ?? null, isBeingPressed: isPressed, themeSpinnerVariant: themeSpinnerVariant ?? null, fillVariant: fillVariant ?? null, sizeVariant, isSelected, outsetVariant: isPressed ? "inset" : "outset", isDisabled, isPending: false, ...mergeProps(buttonProps, props) }, children);
+  return /* @__PURE__ */ jsx(ButtonStructure, { themeVariant: themeVariant ?? null, isBeingPressed: isPressed, themeSpinnerVariant: themeSpinnerVariant ?? null, fillVariant: fillVariant ?? null, sizeVariant, isSelected, outsetVariant: isPressed ? "inset" : "outset", isDisabled, isPending: false, ...mergeProps(buttonProps, props), children });
 }

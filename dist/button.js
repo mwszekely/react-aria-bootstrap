@@ -1,4 +1,5 @@
 "use strict";
+import { jsx } from "react/jsx-runtime";
 import { useAsyncToSync } from "async-to-sync/react";
 import { forwardRef } from "react";
 import { useButton, useObjectRef } from "react-aria";
@@ -32,5 +33,5 @@ export const ActionButton = forwardRef(function ActionButton2({ themeVariant, th
   outsetVariant ??= "flat";
   if (hasError)
     themeVariant = "danger";
-  return /* @__PURE__ */ React.createElement(ButtonStructure, { className, fillVariant, isSelected: null, themeSpinnerVariant, isDisabled, isPending, isBeingPressed: isPressed, sizeVariant, outsetVariant, themeVariant: themeVariant ?? "primary", ...buttonProps }, children);
+  return /* @__PURE__ */ jsx(ButtonStructure, { className, fillVariant, isSelected: null, themeSpinnerVariant, isDisabled, isPending, isBeingPressed: isPressed, sizeVariant, outsetVariant, themeVariant: themeVariant ?? "primary", ...buttonProps, children });
 });

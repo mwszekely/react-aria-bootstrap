@@ -1,5 +1,6 @@
 "use strict";
 "use client";
+import { jsx, jsxs } from "react/jsx-runtime";
 import clsx from "clsx";
 import { useContext, useId, useRef } from "react";
 import { mergeProps, useRadio } from "react-aria";
@@ -12,7 +13,11 @@ export function Radio(props) {
   const inputId = useId();
   const labelId = useId();
   let { inputProps, labelProps, isDisabled, isPressed, isSelected } = useRadio({ value, id: inputId, children: label, isDisabled: userDisabled }, state, ref);
-  const labelContent = /* @__PURE__ */ React.createElement("label", { ...mergeProps({ htmlFor: inputId, className: clsx("form-check-label") }, labelProps) }, label);
-  const inputContent = /* @__PURE__ */ React.createElement("input", { ...mergeProps({ id: inputId, "aria-labelledby": labelId, name, checked: isSelected, disabled: isDisabled, type: "radio", className: clsx("form-check-input") }, inputProps), ref });
-  return /* @__PURE__ */ React.createElement("div", { className: clsx("form-check narrow", className) }, labelPosition == "before" && labelContent, inputContent, labelPosition == "after" && labelContent);
+  const labelContent = /* @__PURE__ */ jsx("label", { ...mergeProps({ htmlFor: inputId, className: clsx("form-check-label") }, labelProps), children: label });
+  const inputContent = /* @__PURE__ */ jsx("input", { ...mergeProps({ id: inputId, "aria-labelledby": labelId, name, checked: isSelected, disabled: isDisabled, type: "radio", className: clsx("form-check-input") }, inputProps), ref });
+  return /* @__PURE__ */ jsxs("div", { className: clsx("form-check narrow", className), children: [
+    labelPosition == "before" && labelContent,
+    inputContent,
+    labelPosition == "after" && labelContent
+  ] });
 }

@@ -1,4 +1,5 @@
 "use strict";
+import { jsx } from "react/jsx-runtime";
 import { useAsyncToSync } from "async-to-sync/react";
 import { useRef } from "react";
 import { mergeProps, useToggleButton } from "react-aria";
@@ -16,7 +17,7 @@ export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange
   let isDisabled = disabledU || false;
   const state = useToggleState({ isDisabled, isReadOnly, isSelected: pressedU, onChange: syncOutput });
   const { buttonProps, isPressed } = useToggleButton({ isDisabled }, state, ref);
-  return /* @__PURE__ */ React.createElement(
+  return /* @__PURE__ */ jsx(
     ButtonStructure,
     {
       fillVariant: fillVariantU ?? "filled",
@@ -28,8 +29,8 @@ export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange
       sizeVariant: sizeVariantU ?? "md",
       themeSpinnerVariant: themeSpinnerVariantU ?? "primary",
       themeVariant: themeVariantU ?? "primary",
-      ...mergeProps(buttonProps, props, { className: "btn-toggle" })
-    },
-    children
+      ...mergeProps(buttonProps, props, { className: "btn-toggle" }),
+      children
+    }
   );
 }

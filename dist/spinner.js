@@ -1,4 +1,5 @@
 "use strict";
+import { jsx } from "react/jsx-runtime";
 import { announce } from "@react-aria/live-announcer";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
@@ -25,5 +26,5 @@ export function PendingSpinner({ pending, variantStyle, variantSize, timeout, la
     }
   }, [pending, showingSpinner, labelId]);
   const p = mergeProps(progressBarProps, { className: clsx(`spinner-${s}`, `spinner-${s}-${variantSize}`) });
-  return /* @__PURE__ */ React.createElement("div", { "aria-hidden": pending ? void 0 : "true", className: clsx("spinner", showingSpinner ? "opacity-100" : "opacity-0") }, /* @__PURE__ */ React.createElement("div", { ...p }, /* @__PURE__ */ React.createElement("span", { className: "visually-hidden" }, "In progress...")));
+  return /* @__PURE__ */ jsx("div", { "aria-hidden": pending ? void 0 : "true", className: clsx("spinner", showingSpinner ? "opacity-100" : "opacity-0"), children: /* @__PURE__ */ jsx("div", { ...p, children: /* @__PURE__ */ jsx("span", { className: "visually-hidden", children: "In progress..." }) }) });
 }
