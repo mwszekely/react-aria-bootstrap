@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { mergeProps, useToggleButton } from "react-aria";
 import { useToggleState } from "react-stately";
 import { ButtonStructure } from "./util/button-structure";
-export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, pressed: pressedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, ...props }) {
+export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, pressed: pressedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, themeSpinnerVariant: themeSpinnerVariantU, ...props }) {
   const ref = useRef(null);
   const { syncOutput, pending, syncDebounce, asyncDebounce } = useAsyncToSync({
     asyncInput: onChangeU,
@@ -25,6 +25,8 @@ export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange
       isPending,
       isBeingPressed: isPressed,
       isSelected: state.isSelected,
+      sizeVariant: sizeVariantU ?? "md",
+      themeSpinnerVariant: themeSpinnerVariantU ?? "primary",
       themeVariant: themeVariantU ?? "primary",
       ...mergeProps(buttonProps, props, { className: "btn-toggle" })
     },
