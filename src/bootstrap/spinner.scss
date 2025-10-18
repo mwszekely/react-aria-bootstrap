@@ -1,6 +1,7 @@
 @use "./settings.scss" as *;
 @use "bootstrap/scss/spinners" as *;
 @use "bootstrap/scss/utilities/api" as *;
+@use "bootstrap/scss/helpers/visually-hidden" as *;
 
 .spinner {
     display: flex;
