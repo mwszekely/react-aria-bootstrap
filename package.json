@@ -6,7 +6,7 @@
     "dev-demo": "next dev --turbopack",
     "build-demo": "next build --turbopack",
     "start-demo": "next start",
-    "build-lib": "npx esbuild ./src/bootstrap/**/*.tsx --outdir=./dist",
+    "build-lib": "npx esbuild ./src/bootstrap/**/*.ts  ./src/bootstrap/**/*.tsx --outdir=./dist",
     "build-lib-types": "npx tsc --project ./tsconfig-bs.json"
   },
   "exports": {
