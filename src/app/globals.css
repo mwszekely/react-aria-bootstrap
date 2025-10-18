@@ -1,0 +1,3 @@
+html.changing-themes, html.changing-themes * {
+  transition: 0.75s ease-in-out all !important;
+}

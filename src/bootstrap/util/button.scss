@@ -1,0 +1,490 @@
+@use "../settings.scss" as *;
+@use "bootstrap/scss/variables/prefix" as *;
+@use "bootstrap/scss/variables/theme-colors" as *;
+@use "bootstrap/scss/variables/btn-hover-bg-shade-amount" as *;
+@use "bootstrap/scss/variables/btn-hover-border-shade-amount" as *;
+@use "bootstrap/scss/variables/btn-active-bg-shade-amount" as *;
+@use "bootstrap/scss/variables/btn-active-border-shade-amount" as *;
+@use "bootstrap/scss/variables/btn-hover-bg-tint-amount" as *;
+@use "bootstrap/scss/variables/btn-hover-border-tint-amount" as *;
+@use "bootstrap/scss/variables/btn-active-bg-tint-amount" as *;
+@use "bootstrap/scss/variables/btn-active-border-tint-amount" as *;
+@use "bootstrap/scss/variables/btn-disabled-opacity" as *;
+@use "bootstrap/scss/functions/shade-color" as *;
+@use "bootstrap/scss/functions/tint-color" as *;
+@use "bootstrap/scss/functions/color-contrast" as *;
+@use "bootstrap/scss/functions/contrast-ratio" as *;
+@use "bootstrap/scss/functions/to-rgb" as *;
+@use "bootstrap/scss/_buttons.scss" as *;
+@use "bootstrap/scss/variables/btn-focus-width" as *;
+@use "bootstrap/scss/mixins/buttons" as *;
+@use "bootstrap/scss/helpers/visually-hidden" as *;
+@use "sass:math";
+@use "sass:map";
+
+
+$bonus-theme-colors: (
+    "subtle",
+    "contrasting"
+);
+
+// Function that returns a 50% opacity outline
+// for a button of a given color.
+// Black for most colors, white for very dark colors.
+@function subtle-contrast($color) {
+    @if contrast-ratio($color, black) > 3 {
+        @return rgba(0, 0, 0, 0.5);
+    }
+    @else {
+        @return color(from #{color-contrast($color)} srgb r g b / 0.5);
+    }
+}
+
+// Add the light/dark-theme sensitive "subtle" and "contrasting" colors.
+// They just inherit the light/dark colors, but which is used depends on the theme.
+@each $color in $bonus-theme-colors {
+    .btn-#{$color} {
+
+        [data-bs-theme="light"] &,
+        &[data-bs-theme="light"] {
+            @if $color =="subtle" {
+                $value: map.get($theme-colors, "light");
+                --bs-theme-color: #{$value};
+                --bs-theme-color-contrast: #{subtle-contrast($value)};
+                @include button-variant($value,
+                    $value,
+                    $hover-background: shade-color($value, $btn-hover-bg-shade-amount),
+                    $hover-border: shade-color($value, $btn-hover-border-shade-amount),
+                    $active-background: shade-color($value, $btn-active-bg-shade-amount),
+                    $active-border: shade-color($value, $btn-active-border-shade-amount));
+            }
+
+            @else if $color =="contrasting" {
+                $value: map.get($theme-colors, "dark");
+                --bs-theme-color: #{$value};
+                --bs-theme-color-contrast: #{subtle-contrast($value)};
+                @include button-variant($value,
+                    $value,
+                    $hover-background: tint-color($value, $btn-hover-bg-tint-amount),
+                    $hover-border: tint-color($value, $btn-hover-border-tint-amount),
+                    $active-background: tint-color($value, $btn-active-bg-tint-amount),
+                    $active-border: tint-color($value, $btn-active-border-tint-amount));
+            }
+        }
+
+        [data-bs-theme="dark"] &,
+        &[data-bs-theme="dark"] {
+            @if $color =="contrasting" {
+                $value: map.get($theme-colors, "light");
+                --bs-theme-color: #{$value};
+                --bs-theme-color-contrast: #{subtle-contrast($value)};
+                @include button-variant($value,
+                    $value,
+                    $hover-background: shade-color($value, $btn-hover-bg-shade-amount),
+                    $hover-border: shade-color($value, $btn-hover-border-shade-amount),
+                    $active-background: shade-color($value, $btn-active-bg-shade-amount),
+                    $active-border: shade-color($value, $btn-active-border-shade-amount));
+            }
+
+            @else if $color =="subtle" {
+                $value: map.get($theme-colors, "dark");
+                --bs-theme-color: #{$value};
+                --bs-theme-color-contrast: #{subtle-contrast($value)};
+                @include button-variant($value,
+                    $value,
+                    $hover-background: tint-color($value, $btn-hover-bg-tint-amount),
+                    $hover-border: tint-color($value, $btn-hover-border-tint-amount),
+                    $active-background: tint-color($value, $btn-active-bg-tint-amount),
+                    $active-border: tint-color($value, $btn-active-border-tint-amount));
+            }
+        }
+    }
+
+
+    .btn-outline-#{$color} {
+
+        [data-bs-theme="light"] &,
+        &[data-bs-theme="light"] {
+            @if $color =="subtle" {
+                $value: map.get($theme-colors, "light");
+                --bs-theme-color: #{$value};
+                --bs-theme-color-contrast: #{subtle-contrast($value)};
+                @include button-outline-variant($value);
+            }
+
+            @else if $color =="contrasting" {
+                $value: map.get($theme-colors, "dark");
+                --bs-theme-color: #{$value};
+                --bs-theme-color-contrast: #{subtle-contrast($value)};
+                @include button-outline-variant($value);
+            }
+        }
+
+        [data-bs-theme="dark"] &,
+        &[data-bs-theme="dark"] {
+            @if $color =="contrasting" {
+                $value: map.get($theme-colors, "light");
+                --bs-theme-color: #{$value};
+                --bs-theme-color-contrast: #{subtle-contrast($value)};
+                @include button-outline-variant($value);
+            }
+
+            @else if $color =="subtle" {
+                $value: map.get($theme-colors, "dark");
+                --bs-theme-color: #{$value};
+                --bs-theme-color-contrast: #{subtle-contrast($value)};
+                @include button-outline-variant($value);
+            }
+        }
+    }
+}
+
+
+// Create a helper variable for each theme style
+// that, regardless of anything we overwrite or the filled/outlined style,
+// contains the color to use
+// (we can't just use, e.g., the bg color, because outlined buttons are transparent)
+@each $color, $value in $theme-colors {
+    .btn.btn-theme-#{$color} {
+        --bs-theme-color: #{$value};
+        --bs-theme-color-contrast: #{subtle-contrast($value)};
+    }
+}
+
+// We override the actual border color,
+// so create a helper variable that we actually use
+.btn.btn-fill {
+    --bs-btn-pseudo-border-color: var(--bs-theme-color-contrast);
+    --bs-btn-pseudo-border-color-shade: color(from var(--bs-theme-color) srgb calc(r / 2) calc(g / 2) calc(b / 2) / 1);
+    //--bs-btn-pseudo-border-color: green;
+    //--bs-btn-pseudo-border-color-shade: red;
+}
+
+// Override the hover styles to shade the buttons 
+// instead of swinging wildly from white to red or whatever.
+//
+// We also set the text color always be black (or white) for
+// contrast reasons
+.btn.btn-outline {
+    --bs-btn-hover-bg: color(from var(--bs-theme-color) srgb r g b / 33.33%);
+    --bs-btn-active-bg: color(from var(--bs-theme-color) srgb r g b / 33.33%);
+    --bs-btn-hover-color: var(--bs-body-color);
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-active-color: var(--bs-body-color);
+    --bs-btn-pseudo-border-color: var(--bs-theme-color);//color(from var(--bs-theme-color) srgb calc(r / 2) calc(g / 2) calc(b / 2) / 1);
+    --bs-btn-pseudo-border-color-shade: color(from var(--bs-theme-color) srgb calc(r / 2) calc(g / 2) calc(b / 2) / 1);
+
+    &.btn-tactile-inset {
+        [data-bs-theme="dark"] &,
+        &[data-bs-theme="dark"] {
+            --bs-btn-pseudo-border-color-shade: color(from var(--bs-theme-color) srgb calc(r / 4) calc(g / 4) calc(b / 4) / 1);
+        }
+    }
+    //--bs-btn-pseudo-border-color: green;
+    //--bs-btn-pseudo-border-color-shade: red;
+    
+    --bs-btn-disabled-bg: color(from var(--bs-theme-color) srgb r g b / 33.33%);
+    --bs-btn-disabled-color: color(from var(--bs-body-color) srgb r g b / #{$btn-disabled-opacity});
+    --#{$prefix}btn-disabled-opacity: 1;
+}
+
+
+.btn.tactile {
+    border: none;
+
+    // Define how "deep" the buttons are
+    --bs-btn-z-height-base: 0.3333em;
+    &.btn-sm { --bs-btn-z-height-base: 0.25em; }
+    &.btn-lg { --bs-btn-z-height-base: 0.4em; }
+
+
+    // We turn this off unless explicitly enabled
+    // because "active" is ambiguous in a lot of cases.
+    // We rely on "pressed" and "pressing" instead.
+    --bs-btn-active-shadow:     var(--bs-btn-box-shadow);
+
+    // When pressing/pressed
+    // re-enable the active shadows
+    &.pressing, &.disabled, &:disabled {
+        --bs-btn-active-shadow: var(--bs-btn-pressing-shadow);
+        --bs-btn-box-shadow:    var(--bs-btn-pressing-shadow);
+    }
+    &.pressed {
+        --bs-btn-active-shadow: var(--bs-btn-pressed-shadow);
+        --bs-btn-box-shadow:    var(--bs-btn-pressed-shadow);
+    }
+
+    // When disabled, use the same shadow as being pressed
+    &.disabled, &:disabled {
+        // Bootstrap actually removes the shadow from disabled buttons,
+        // so we have to add it back in manually, including the focus ring.
+        box-shadow: var(--bs-btn-pressing-shadow), 0 0 0 transparent;
+        &:focus-visible {
+            box-shadow: var(--bs-btn-pressing-shadow), var(--#{$prefix}btn-focus-box-shadow);
+        }
+    }
+
+    --bs-btn-box-shadow: var(--bs-btn-default-shadow);
+    &.pressing {
+        --bs-btn-box-shadow: var(--bs-btn-pressing-shadow);
+    }
+
+    &.pressed {
+        --bs-btn-box-shadow: var(--bs-btn-pressed-shadow);
+    }
+
+    &.btn-tactile-inset {
+        
+        // The "top" side of the theoretical material holding the button
+        --shadow1-default:  inset 0 0 0 0px var(--bs-btn-pseudo-border-color-shade);
+        --shadow1-pressing: inset 0 var(--bs-btn-z-height-base) 0 0px var(--bs-btn-pseudo-border-color-shade);
+        --shadow1-pressed:  inset 0 var(--bs-btn-z-height-base) 0 0px var(--bs-btn-pseudo-border-color-shade);
+
+        // The part that hides the top part of the button
+        // (not used for inset buttons, but kept to allow for transitions between the two)
+        --shadow2-default: inset 0 0px 0 0px var(--bs-body-bg);
+        --shadow2-pressing: inset 0 0 0 0px var(--bs-body-bg);
+        --shadow2-pressed: inset 0 0 0 0px var(--bs-body-bg);
+
+        // The top half of the outline
+        --shadow3-default: inset 0 0px 0 1px var(--bs-btn-pseudo-border-color);
+        --shadow3-pressing: inset 0 0 0 1px var(--bs-btn-pseudo-border-color);
+        --shadow3-pressed: inset 0 0 0 1px var(--bs-btn-pseudo-border-color);
+
+        // The bottom half of the outline
+        --shadow4-default: inset 0 0 0 1px var(--bs-btn-pseudo-border-color);
+        --shadow4-pressing: inset 0 0px 0 1px var(--bs-btn-pseudo-border-color);
+        --shadow4-pressed: inset 0 0px 0 1px var(--bs-btn-pseudo-border-color);
+
+        // Hide all the borders
+        --bs-btn-border-color: var(--bs-body-bg);
+        --bs-btn-hover-border-color: var(--bs-body-bg);
+        --bs-btn-active-border-color: var(--bs-body-bg);
+        --bs-btn-disabled-border-color: var(--bs-body-bg);
+
+        --bs-btn-default-shadow:   var(--shadow2-default),  var(--shadow3-default),  var(--shadow4-default),  var(--shadow1-default);
+        --bs-btn-pressing-shadow:  var(--shadow2-pressing), var(--shadow3-pressing), var(--shadow4-pressing), var(--shadow1-pressing);
+        --bs-btn-pressed-shadow:   var(--shadow2-pressed),  var(--shadow3-pressed),  var(--shadow4-pressed),  var(--shadow1-pressed);
+        
+        &>.btn-label {
+            position: relative;
+            display: inline-block;
+            transform: translateY(0px);
+            transition: transform #{$btn-transition-duration} ease-in-out;
+        }
+
+        &.pressing, &.pressed, &.pending {
+            &>.btn-label {
+                transform: translateY(calc(var(--bs-btn-z-height-base)));
+            }
+        }
+    }
+
+    &.btn-tactile-outset {
+
+        // The "bottom" side of the button
+        --shadow1-default:  inset 0 calc(-1 * var(--bs-btn-z-height-base)) 0 0px var(--bs-btn-pseudo-border-color-shade);
+        --shadow1-pressing: inset 0 0px 0 0px var(--bs-btn-pseudo-border-color-shade);
+        --shadow1-pressed:  inset 0 0px 0 0px var(--bs-btn-pseudo-border-color-shade);
+
+        // The part that hides the top part of the button
+        --shadow2-default: inset 0 0px 0 0px var(--bs-body-bg);
+        --shadow2-pressing: inset 0 var(--bs-btn-z-height-base) 0 0px var(--bs-body-bg);
+        --shadow2-pressed: inset 0 var(--bs-btn-z-height-base) 0 0px var(--bs-body-bg);
+
+        // The top half of the outline
+        --shadow3-default: inset 0 0px 0 1px var(--bs-btn-pseudo-border-color);
+        --shadow3-pressing: inset 0 var(--bs-btn-z-height-base) 0 1px var(--bs-btn-pseudo-border-color);
+        --shadow3-pressed: inset 0 0px 0 1px var(--bs-btn-pseudo-border-color);
+
+        // The bottom half of the outline
+        --shadow4-default: inset 0 calc(-1 * var(--bs-btn-z-height-base)) 0 1px var(--bs-btn-pseudo-border-color);
+        --shadow4-pressing: inset 0 0px 0 1px var(--bs-btn-pseudo-border-color);
+        --shadow4-pressed: inset 0 0px 0 1px var(--bs-btn-pseudo-border-color);
+
+        // Hide all the borders
+        --bs-btn-border-color: var(--bs-body-bg);
+        --bs-btn-hover-border-color: var(--bs-body-bg);
+        --bs-btn-active-border-color: var(--bs-body-bg);
+        --bs-btn-disabled-border-color: var(--bs-body-bg);
+
+        --bs-btn-default-shadow:  var(--shadow1-default),  var(--shadow2-default),  var(--shadow3-default),  var(--shadow4-default);
+        --bs-btn-pressing-shadow: var(--shadow1-pressing), var(--shadow2-pressing), var(--shadow3-pressing), var(--shadow4-pressing);
+        --bs-btn-pressed-shadow:  var(--shadow1-pressed),  var(--shadow2-pressed),  var(--shadow3-pressed),  var(--shadow4-pressed);
+
+        
+        &>.btn-label {
+            position: relative;
+            display: inline-block;
+            transform: translateY(calc(var(--bs-btn-z-height-base) / -2));
+            transition: transform #{$btn-transition-duration} ease-in-out;
+        }
+
+        &.pressing, &.pressed, &.pending {
+            &>.btn-label {
+                transform: translateY(calc(var(--bs-btn-z-height-base) / 2));
+            }
+        }
+    }
+}
+
+
+.btn.tactile2 {
+    position: relative;
+    // TODO: We totally turn off box-shadow transitions. Because we can't specify individual transitions 
+    // for individual box shadows, we're stuck with two bad situations:
+    // 1. We allow box shadows to animate, which annoyingly delays the focus ring when quickly tabbing through things.
+    // 2. We turn off box shadow transitions altogether, preventing the button presses from animating but the focus ring always stays visible.
+    // I've chosen the latter.
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow 0s ease-out;
+
+    
+    --#{$prefix}btn-focus-box-shadow: 0 0 0 transparent;
+
+    // Define how "deep" the buttons are
+    $btn-z-height-base: 0.25em;
+    $btn-z-height-overshoot: 0.1em;
+
+    &:focus-visible {
+        // Ensure that the focus ring is always visible, instead of depending on the button's color (e.g. yellow on white)
+        --#{$prefix}btn-focus-box-shadow: 0 0 0 #{$btn-focus-width} color(from var(--#{$prefix}body-color) srgb r g b / 0.5);
+    }
+
+
+    --bs-btn-box-shadow: 0 0 0 transparent, 0 0 0 transparent, var(--#{$prefix}btn-focus-box-shadow);
+    --bs-btn-pending-shadow: 0 0 0 transparent, 0 0 0 transparent, var(--#{$prefix}btn-focus-box-shadow);
+    --bs-btn-active-shadow: 0 0 0 transparent, 0 0 0 transparent, var(--#{$prefix}btn-focus-box-shadow);
+
+    &>.btn-label {
+        position: relative;
+        display: inline-block;
+        transform: translateY(-#{math.div($btn-z-height-base, 2)});
+    }
+
+    &.pressing {
+        box-shadow: var(--bs-btn-active-shadow), 0 0 0 transparent;
+        &:focus { box-shadow: var(--bs-btn-active-shadow), var(--#{$prefix}btn-focus-box-shadow); }
+        &>.btn-label {
+            transform: translateY(#{math.div($btn-z-height-base, 2) + $btn-z-height-overshoot});
+        }
+    }
+
+    &.pending:not(.pressing) {
+        box-shadow: var(--bs-btn-pending-shadow), 0 0 0 transparent;
+        &:focus { box-shadow: var(--bs-btn-pending-shadow), var(--#{$prefix}btn-focus-box-shadow); }
+        &>.btn-label {
+            transform: translateY(#{math.div($btn-z-height-base, 2)});
+        }
+    }
+
+    &.active:not(.pending):not(.pressing) {
+        box-shadow: var(--bs-btn-pending-shadow), 0 0 0 transparent;
+        &:focus { box-shadow: var(--bs-btn-pending-shadow), var(--#{$prefix}btn-focus-box-shadow); }
+        &>.btn-label {
+            transform: translateY(#{math.div($btn-z-height-base, 2)});
+        }
+    }
+
+
+    &:disabled,
+    &.disabled,
+    fieldset:disabled & {
+        //pointer-events: all;
+    }
+
+
+
+
+
+
+    &.btn-fill {
+       
+    }
+
+    &.btn-outline {
+
+        // Bootstrap's results in button background colors swinging wildly between saturations
+        // so we tone it down a bit here
+        --bs-btn-active-bg: color(from var(--bs-btn-border-color) srgb r g b / 0.25);
+        --bs-btn-hover-bg: var(--bs-btn-active-bg);
+        --bs-btn-focus-bg: var(--bs-btn-active-bg);
+
+        // Also just set the text color to be the body color
+        // to make any color accessible on dark or light themes
+        color: var(--#{$prefix}body-color);
+
+        &:hover {
+            color: var(--#{$prefix}body-color);
+        }
+
+        &.pressing,
+        &.pending,
+        &:focus {
+            background-color: var(--bs-btn-active-bg);
+        }
+    }
+
+
+    &.btn-tactile-outset, &.btn-tactile-inset {
+
+    }
+    
+    &.btn-tactile-outset {
+        --bs-btn-border-color: var(--bs-body-bg);
+        --bs-btn-hover-border-color: var(--bs-body-bg);
+        --bs-btn-active-border-color: var(--bs-body-bg);
+        --bs-btn-disabled-border-color: var(--bs-body-bg);
+        &.btn-outline { --bs-button-pseudo-border-color: var(--bs-btn-color); }
+        &.btn-fill { --bs-button-pseudo-border-color: var(--bs-btn-bg); }
+        /*                       This is the piece that hides the top of the button,         This is the shadow from the top half when "extra" pressed,                                                       This is the bottom-facing side of the button that extends up on the Z-axis */
+        --bs-btn-box-shadow:     inset 0 0px                   0px var(--#{$prefix}body-bg), inset 0 0px 0px 1px                                                        var(--bs-button-pseudo-border-color), inset 0 -#{$btn-z-height-base} 0px color(from var(--bs-btn-color) srgb r g b / 0.5);
+        --bs-btn-active-shadow:  inset 0 #{$btn-z-height-base} 0px var(--#{$prefix}body-bg), inset 0 #{$btn-z-height-base + $btn-z-height-overshoot} #{$btn-z-height-base + $btn-z-height-overshoot} black, inset 0 0px                    0px color(from var(--bs-btn-color) srgb r g b / 0.5);
+        --bs-btn-pending-shadow: inset 0 #{$btn-z-height-base} 0px var(--#{$prefix}body-bg), inset 0 0px 0px                                                                                         black, inset 0 0px                    0px color(from var(--bs-btn-color) srgb r g b / 0.5);
+    }
+
+    &.btn-tactile-inset {
+
+        // For the light theme, just shading the background to be darker works fine.
+        --bs-btn-box-shadow:     inset 0 0px                   0px                        color(from var(--#{$prefix}body-color) srgb r g b / 0.5);
+        --bs-btn-active-shadow:  inset 0 #{$btn-z-height-base} #{$btn-z-height-overshoot} color(from var(--#{$prefix}body-color) srgb r g b / 0.5);
+        --bs-btn-pending-shadow: inset 0 #{$btn-z-height-base} 0px                        color(from var(--#{$prefix}body-color) srgb r g b / 0.5);
+
+        [data-bs-theme="dark"] &,
+        &[data-bs-theme="dark"] {
+            // Unlike the light theme, a harsh, well-defined shadow looks really bad here.
+            // So we instead go for a fuzzier looking shadow, like a shadowed shadow.
+            --bs-btn-box-shadow:     inset 0                                                 0px                   0px                                 rgba(255, 255, 255, 1);
+            --bs-btn-active-shadow:  inset 0 #{$btn-z-height-base + $btn-z-height-overshoot} #{$btn-z-height-base} -#{math.div($btn-z-height-base, 2)} rgba(0, 0, 0, 1);
+            --bs-btn-pending-shadow: inset 0 #{$btn-z-height-base}                           #{$btn-z-height-base} -#{math.div($btn-z-height-base, 2)} rgba(0, 0, 0, 1);
+        }
+    }
+
+
+}
+
+
+.btn {
+    position: relative;
+
+    // Make sure that the spinner appears in the right spot on the tactile buttons
+    --bs-spinner-top-offset: 0;
+    
+    &.tactile {
+        &.pressed, &.pressing, &.pending {
+            --bs-spinner-top-offset: var(--bs-btn-z-height-base, 0);
+        }
+    }
+    &>.spinner {
+        position: absolute;
+        inset: 0;
+        top: var(--bs-spinner-top-offset, 0);
+        z-index: 1;
+        pointer-events: none;
+            transition: top #{$btn-transition-duration} ease-in-out;
+        &>.spinner-border {
+            --bs-spinner-height: 1.2em;
+            --bs-spinner-width: 1.2em;
+            transition: opacity 0.15s ease-in-out;
+        }
+    }
+}

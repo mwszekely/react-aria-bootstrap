@@ -1,0 +1,116 @@
+@use "bootstrap/scss/badge" as *;
+@use "bootstrap/scss/helpers/color-bg" as *;
+@use "bootstrap/scss/utilities" as *;
+@use "bootstrap/scss/variables/theme-colors" as *;
+@use "bootstrap/scss/functions/to-rgb" as *;
+@use "sass:math";
+@use "sass:map";
+
+.tag-group-tags {
+    display: flex;
+    flex-wrap: true;
+    gap: 0.25em;
+}
+
+.tag.badge {
+    
+    &.selectable {
+        cursor: pointer;
+    }
+}
+
+.tag-remove.btn-sm {
+
+
+    font-size: 0.666em;
+    padding: 0 0.3em;
+    position: relative;
+    --bs-btn-border-radius: 2em;
+    margin-inline-start: 0.5em;
+    &>.btn-label { top: -1px; }
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0em;
+        margin: -8px -10px -8px 0;
+    }
+
+    &:hover {
+        filter: invert(1);
+    }
+}
+
+
+
+
+.border-contrasting {
+    --bs-border-opacity: 1;
+    [data-bs-theme="light"] &,
+    &[data-bs-theme="light"] {
+        $value: map.get($theme-colors, "dark");
+        --bs-contrasting-rgb: #{to-rgb($value)};
+        border-color: rgba(var(--bs-contrasting-rgb), var(--bs-border-opacity)) !important;
+    }
+
+    [data-bs-theme="dark"] &,
+    &[data-bs-theme="dark"] {
+        $value: map.get($theme-colors, "light");
+        --bs-contrasting-rgb: #{to-rgb($value)};
+        border-color: rgba(var(--bs-contrasting-rgb), var(--bs-border-opacity)) !important;
+    }
+}
+
+.border-subtle {
+    --bs-border-opacity: 1;
+    [data-bs-theme="light"] &,
+    &[data-bs-theme="light"] {
+        $value: map.get($theme-colors, "light");
+        --bs-subtle-rgb: #{to-rgb($value)};
+        border-color: rgba(var(--bs-subtle-rgb), var(--bs-border-opacity)) !important;
+    }
+
+    [data-bs-theme="dark"] &,
+    &[data-bs-theme="dark"] {
+        $value: map.get($theme-colors, "dark");
+        --bs-subtle-rgb: #{to-rgb($value)};
+        border-color: rgba(var(--bs-subtle-rgb), var(--bs-border-opacity)) !important;
+    }
+}
+
+.text-bg-contrasting {
+    --bs-border-opacity: 1;
+    [data-bs-theme="light"] &,
+    &[data-bs-theme="light"] {
+        $value: map.get($theme-colors, "dark");
+        --bs-contrasting-rgb: #{to-rgb($value)};
+        color: var(--bs-body-bg) !important;
+        background-color: RGBA(var(--bs-contrasting-rgb), var(--bs-bg-opacity, 1)) !important;
+    }
+
+    [data-bs-theme="dark"] &,
+    &[data-bs-theme="dark"] {
+        $value: map.get($theme-colors, "light");
+        --bs-contrasting-rgb: #{to-rgb($value)};
+        color: var(--bs-body-bg) !important;
+        background-color: RGBA(var(--bs-contrasting-rgb), var(--bs-bg-opacity, 1)) !important;
+    }
+}
+
+.text-bg-subtle {
+    --bs-border-opacity: 1;
+    [data-bs-theme="light"] &,
+    &[data-bs-theme="light"] {
+        $value: map.get($theme-colors, "light");
+        --bs-contrasting-rgb: #{to-rgb($value)};
+        color: var(--bs-body-color) !important;
+        background-color: RGBA(var(--bs-contrasting-rgb), var(--bs-bg-opacity, 1)) !important;
+    }
+
+    [data-bs-theme="dark"] &,
+    &[data-bs-theme="dark"] {
+        $value: map.get($theme-colors, "dark");
+        --bs-contrasting-rgb: #{to-rgb($value)};
+        color: var(--bs-body-color) !important;
+        background-color: RGBA(var(--bs-contrasting-rgb), var(--bs-bg-opacity, 1)) !important;
+    }
+}

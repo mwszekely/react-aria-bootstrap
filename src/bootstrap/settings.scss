@@ -1,0 +1,16 @@
+//@use "bootstrap/scss/variables/prefix" as *;
+
+// Make the button transitions waaaay faster
+$btn-transition-duration: 0.04s !default;
+$btn-transition-override: color #{$btn-transition-duration} ease-in-out, background-color #{$btn-transition-duration} ease-in-out, border-color #{$btn-transition-duration} ease-in-out, box-shadow #{$btn-transition-duration} ease-in-out !default;
+
+@use "bootstrap/scss/variables/btn-transition" with ($btn-transition: #{$btn-transition-override});
+@use "bootstrap/scss/variables/min-contrast-ratio" with ($min-contrast-ratio: 4);
+@use "bootstrap/scss/variables/enable-shadows" with ($enable-shadows: true);
+@use "bootstrap/scss/variables/focus-ring-opacity" as *;
+//@forward "bootstrap/scss/variables/form-check-input-border" with ($form-check-input-border: var(--#{$prefix}border-width) solid color(from var(--#{$prefix}body-color) srgb r g b / 0.5));
+@forward "./variables/form-check-input-bg";
+@forward "./variables/enable-button-pointers";
+@forward "./variables/form-check-label-cursor";
+
+@forward "bootstrap/scss/root";

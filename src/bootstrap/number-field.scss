@@ -1,0 +1,20 @@
+@use "./text-field.scss";
+
+.number-field-buttons {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+
+    &>.btn {
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: 0.75em;
+    }
+    &:not(:first-child)>.btn {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+    }
+    &:not(:last-child)>.btn {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+    }
+}

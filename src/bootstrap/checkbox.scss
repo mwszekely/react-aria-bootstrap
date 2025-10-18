@@ -1,0 +1,128 @@
+@use "./util/check.scss";
+@use "bootstrap/scss/variables/prefix" as *;
+@use "bootstrap/scss/variables/body-bg" as *;
+@use "bootstrap/scss/variables/dark/body-bg-dark" as *;
+@use "bootstrap/scss/variables/focus-ring-opacity" as *;
+@use "bootstrap/scss/variables/focus-ring-blur" as *;
+@use "bootstrap/scss/variables/focus-ring-width" as *;
+@use "bootstrap/scss/variables/enable-gradients" as *;
+@use "bootstrap/scss/variables/form-check-input-bg" as *;
+@use "bootstrap/scss/variables/form-check-input-focus-box-shadow" as *;
+@use "bootstrap/scss/variables/primary" as *;
+@use "bootstrap/scss/functions/tint-color" as *;
+@use "bootstrap/scss/functions/escape-svg" as *;
+@use "bootstrap/scss/functions/color-contrast" as *;
+@use "bootstrap/scss/variables/theme-colors" as *;
+@use "sass:map";
+
+// Differences from default Bootstrap:
+// 1. Add theme variants
+//      1a. Add a tinted BG when unchecked
+//      1b. Add a border to increase visibility
+//          The border is based on the theme color; assuming it's against body-bg, 
+//          it is visible only when the theme color doesn't provide sufficient contrast. 
+//      1c. Reassign the checked bg image to have sufficient contract no matter the color.
+// 2. Add a transition for the focus ring and background color
+//      2a. The focus ring *appears* immediately but animates its exit
+//      2b. TODO: Evaluate if this needs to be disabled depending on reduced motion preferences.      
+// 3. Adjust the focus ring to be based on the body color instead of the theme color
+//
+
+@mixin cbx($value) {
+
+    transition: box-shadow ease-out 0.175s, background-color ease-in-out 0.1s;
+
+    //background: var(--bs-form-check-bg-image), var(--bs-form-check-bg);
+
+    --bs-form-check-bg: color(from #{$value} srgb r g b / 0.25);
+    
+    // Determine if this color against the body bg has sufficient contrast.
+    // E.G. a yellow on white needs a black border.
+    [data-bs-theme="light"] &, &[data-bs-theme="light"] {
+        --#{$prefix}contrasting-border-color: #{color-contrast($body-bg, $value, $value)};
+    }
+
+    [data-bs-theme="dark"] &, &[data-bs-theme="dark"] {
+        --#{$prefix}contrasting-border-color: #{color-contrast($body-bg-dark, $value, $value)};
+    }
+    $focus-ring-color: color(from var(--#{$prefix}body-color) srgb r g b / 0.5);
+    $border-color: var(--#{$prefix}contrasting-border-color);
+    box-shadow: 0 0 0 var(--#{$prefix}border-width) #{$border-color}, 0 0 0 0 #{$focus-ring-color};
+
+    // Change the focus color from hardcoded as primary to being the theme color
+    &:focus {
+        transition: box-shadow ease-out 0s, background-color ease-in-out 0.1s;
+        box-shadow: 0 0 0 var(--#{$prefix}border-width) #{$border-color}, 0 0 #{$focus-ring-blur} #{$focus-ring-width} #{$focus-ring-color};
+    }
+
+    // Change the background of checked inputs to be the theme color
+    &:checked {
+        //background: no-repeat var(--bs-form-check-bg) 0% 0%, var(--bs-form-check-bg-image), var(--bs-form-check-bg);
+        box-shadow: 0 0 0 var(--#{$prefix}border-width) color-contrast($value), 0 0 0 0 #{$focus-ring-color};
+        &:focus {
+            box-shadow: 0 0 0 var(--#{$prefix}border-width) #{$border-color}, 0 0 $focus-ring-blur $focus-ring-width #{$focus-ring-color};
+        }
+        --bs-form-check-bg: #{$value};
+        background-color: var(--bs-form-check-bg);
+        border-color: $value;
+    }
+
+    // Change the checkmark background
+    // (It's unfortunately not possible to use css variables in a data:image)
+    &.form-check-input:checked {
+        $check-bg-color: color-contrast($value);
+        $check-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$check-bg-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/></svg>");
+        &[type="checkbox"] {
+
+            @if $enable-gradients {
+                --#{$prefix}form-check-bg-image: #{escape-svg($check-bg)}, var(--#{$prefix}gradient);
+            }
+
+            @else {
+                --#{$prefix}form-check-bg-image: #{escape-svg($check-bg)};
+            }
+        }
+    }
+
+}
+
+.form-check-input {
+    @include cbx($primary);
+}
+    
+// Add checkboxes in each of the theme colors
+@each $color, $value in $theme-colors {
+    .form-check-input.form-check-input-#{$color} {
+        @include cbx($value);
+    }
+}
+
+
+$bonus-theme-colors: ("subtle", "contrasting");
+
+@each $color in $bonus-theme-colors {
+    .form-check-input.form-check-input-#{$color} {
+        [data-bs-theme="light"] &, &[data-bs-theme="light"] {
+            @if $color == "subtle" {
+                $value: map.get($theme-colors, "light");
+                @include cbx($value);
+            }
+            @else if $color == "contrasting" {
+                $value: map.get($theme-colors, "dark");
+                @include cbx($value);
+            }
+        }
+
+        [data-bs-theme="dark"] &, &[data-bs-theme="dark"] {
+            @if $color == "contrasting" {
+                $value: map.get($theme-colors, "light");
+                @include cbx($value);
+            }
+            @else if $color == "subtle" {
+                $value: map.get($theme-colors, "dark");
+                @include cbx($value);
+            }
+
+        }
+    }
+}

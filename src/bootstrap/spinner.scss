@@ -1,0 +1,16 @@
+@use "./settings.scss" as *;
+@use "bootstrap/scss/spinners" as *;
+@use "bootstrap/scss/utilities/api" as *;
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity ease-in-out 0.2s;
+    &>.spinner-border {
+        isolation: isolate;  
+        --bs-spinner-border-width: 0.15em;
+        filter: drop-shadow(0 0 0.05em var(--bs-theme-color, black)) url(#saturate-opacity);
+    }
+}
+

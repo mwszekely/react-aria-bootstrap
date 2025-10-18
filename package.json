@@ -1,0 +1,39 @@
+{
+  "name": "react-aria-bootstrap",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev-demo": "next dev --turbopack",
+    "build-demo": "next build --turbopack",
+    "start-demo": "next start",
+    "build-lib": "npx esbuild ./src/bootstrap/**/*.tsx --outdir=./dist"
+  },
+  "exports": {
+    "import": "./dist/index.js"
+  },
+  "dependencies": {
+    "@react-aria/live-announcer": "^3.4.4",
+    "async-to-sync": "github:mwszekely/async-to-sync",
+    "bootstrap": "github:mwszekely/bootstrap",
+    "clsx": "^2.1.1",
+    "next": "15.5.3",
+    "react": "19.1.0",
+    "react-aria": "^3.43.2",
+    "react-aria-components": "^1.12.2",
+    "react-dom": "19.1.0",
+    "react-stately": "^3.41.0",
+    "react-transition-group": "^4.4.5",
+    "react-transition-state": "^2.3.1"
+  },
+  "devDependencies": {
+    "@react-types/shared": "^3.32.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/react-transition-group": "^4.4.12",
+    "esbuild": "^0.25.11",
+    "sass": "^1.93.0",
+    "typescript": "^5.9.2"
+  },
+  "packageManager": "pnpm@10.15.1+sha512.34e538c329b5553014ca8e8f4535997f96180a1d0f614339357449935350d924e22f8614682191264ec33d1462ac21561aff97f6bb18065351c162c7e8f6de67"
+}

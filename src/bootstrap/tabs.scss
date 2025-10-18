@@ -1,0 +1,90 @@
+@use "./settings.scss";
+@use "bootstrap/scss/nav.scss";
+@use "./transition.scss" as *;
+
+.tabs-container {
+    display: grid;
+    &.tabs-container-horizontal {
+        grid-template-rows: auto 1fr;
+    }
+    &.tabs-container-vertical {
+        grid-template-columns: auto 1fr;
+    }
+}
+.tabs-panels {
+    display: grid;
+    overflow: hidden;
+    --translate-degree: 1em;
+
+    &>* {
+        grid-area: 1 / 1 / 1 / 1;
+    }
+}
+
+// Grids and sticky are weird...
+.tabs-container-vertical>.tabs-list>.nav {
+    position: sticky;
+    top: 0;
+}
+
+.tabs-container-horizontal>.tabs-list {
+    position: sticky;
+    top: 0;
+    background-color: var(--bs-body-bg);
+    z-index: 1;
+}
+
+.nav-link {
+    &.active {
+        cursor: default;
+    }
+    &:not(.active) {
+        cursor: pointer;
+    }
+}
+
+.direction-left {
+    --translate-relative: calc(-1 * var(--translate-degree));
+}
+
+.direction-right {
+    --translate-relative: calc(1 * var(--translate-degree));
+}
+.direction-neutral {
+    --translate-relative: 0%;
+}
+
+.orientation-horizontal {
+    --t: translate(var(--translate-relative), 0);
+}
+
+.orientation-vertical {
+    --t: translate(0, var(--translate-relative));
+}
+
+.#{$transition-class-base}.tab-panel {
+
+
+    transform-origin: top center;
+    &.orientation-vertical {
+        transform-origin: center left;
+    }
+    --#{$transition-class-base}-properties: opacity, transform;
+    --#{$transition-class-base}-duration: 0.3333s, 0.3333s;
+    --#{$transition-class-base}-#{$transition-class-enter}-timing-function: ease-in-out, ease-in-out;//, #{$transition-default-timing-function-in};
+    --#{$transition-class-base}-#{$transition-class-exit}-timing-function: ease-in-out, ease-in-out;//, #{$transition-default-timing-function-out};
+
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-init},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-transition},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-finalize} {
+        opacity: var(--#{$transition-class-base}-fade-min, 0);
+        transform: var(--t) scale(1);
+    }
+
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-init},
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-transition},
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-finalize} {
+        opacity: var(--#{$transition-class-base}-fade-max, 1);
+        transform: translateX(0) scale(1);
+    }
+}

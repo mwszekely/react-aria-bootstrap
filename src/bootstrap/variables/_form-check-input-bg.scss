@@ -1,0 +1,2 @@
+@use "bootstrap/scss/variables/primary-bg-subtle" as *;
+@forward "bootstrap/scss/variables/form-check-input-bg" with ($form-check-input-bg: $primary-bg-subtle !default);

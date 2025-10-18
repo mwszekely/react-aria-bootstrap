@@ -1,0 +1,94 @@
+@use "sass:list";
+
+$transition-class-base: ptl !default;
+$transition-class-enter: n !default;
+$transition-class-exit: x !default;
+$transition-class-measure: m !default;
+$transition-class-init: i !default;
+$transition-class-transition: t !default;
+$transition-class-finalize: f !default;
+$transition-class-pending: p !default;
+
+$transition-default-duration: 175ms !default;
+
+// The timing function for enter transitions, appearing quickly.
+$transition-default-timing-function-in: cubic-bezier(0.05, 0.7, 0.1, 1.0) !default;
+// The timing function for exit transitions, leaving with some gravity.
+$transition-default-timing-function-out: cubic-bezier(0.3, 0.0, 0.8, 0.15) !default;
+// The timing function for swap transitions is intentionally symmetrical and it's best to keep it that way for slide (and related) transitions to look good.
+$transition-default-timing-function-swap: cubic-bezier(0.15, 1.0, 0.15, 1.0) !default;
+
+// Everything is wrapped in an extra selector in an attempt to improve specificity slightly
+// over anything with just a single-selector transition (e.g. a lot of Bootstrap transitions)
+.#{$transition-class-base} {
+
+    // Fun fact: the initial value of transition-property is `all`, not `none`.
+    // Which, uh, that's annoying. It means all sorts of other things like z-index and visibility and display
+    // will just suddenly start animating themselves.
+    // Also IMPORTANT TO NOTE!
+    // If the variable doesn't resolve to a proper, comma separated list of properties
+    // (i.e. it would make the `transition-property` have an invalid value)
+    // it will, once again, default to `all`, so we have this out here to counteract that.
+    transition-property: none;
+
+    // We're going to be animating opacity a lot, 
+    // so let's just be proactive about weird graphical glitches during transitions
+    // because a new layer was suddenly created. This stops the "was suddenly created" problem.
+    isolation: isolate;
+
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-transition},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-transition} {
+
+        transition-property: var(--#{$transition-class-base}-properties, none);
+        transition-duration: var(--#{$transition-class-base}-duration, #{$transition-default-duration});
+    }
+
+
+    &.#{$transition-class-base}-#{$transition-class-enter} {
+        transition-timing-function: var(--#{$transition-class-base}-#{$transition-class-enter}-timing-function, #{$transition-default-timing-function-in});
+    }
+
+    &.#{$transition-class-base}-#{$transition-class-exit} {
+        transition-timing-function: var(--#{$transition-class-base}-#{$transition-class-exit}-timing-function, #{$transition-default-timing-function-out});
+    }
+
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-finalize} {
+        // Make sure that the mouse is never blocked by a hidden transition.
+        // (TODO: Too opinionated to have globally?
+        // It's meant to cover the case of "keep this visible for ATs without display: none")
+        pointer-events: none;
+    }
+
+    &.#{$transition-class-base}-ev-hidden {
+
+        &.#{$transition-class-base}-#{$transition-class-exit}.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-finalize},
+        &.#{$transition-class-base}-#{$transition-class-pending} {
+            visibility: hidden;
+        }
+    }
+
+    &.#{$transition-class-base}-ev-removed {
+
+        &.#{$transition-class-base}-#{$transition-class-exit}.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-finalize},
+        &.#{$transition-class-base}-#{$transition-class-pending} {
+            display: none;
+        }
+    }
+
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-measure},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-measure},
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-init},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-init} {
+        transition: none !important;
+    }
+
+}
+
+
+@media (prefers-reduced-motion) {
+    // When this media query is active, 
+    // override all other transitions with just a simple opacity transition.
+    .#{$transition-class-base} {
+        --#{$transition-class-base}-properties: opacity !important;
+    }
+}
