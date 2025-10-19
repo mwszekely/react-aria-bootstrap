@@ -174,7 +174,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ child
 
     const updateAutoWidth = useEffectEvent((e: Element) => {
         // Prevent incorrect measurements when the element is invisible
-        if (e.scrollWidth || ((widthTextValueOverride ?? valueUsed?.toString() ?? "").length > 0))
+        if (e.scrollWidth || ((widthTextValueOverride ?? valueUsed?.toString() ?? "") == ""))
             setMeasuredWidth((e.scrollWidth).toString() ?? "");
     });
 

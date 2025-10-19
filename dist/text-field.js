@@ -114,7 +114,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ chil
   const [measuredWidth, setMeasuredWidth] = useState("");
   const spinner = noSpinner ? null : (pending || inInputGroup2) && /* @__PURE__ */ jsx(PendingSpinner, { labelId: labelProps.id, pending: pending ?? false, variantSize: variantSize == "lg" ? "md" : "sm" });
   const updateAutoWidth = useEffectEvent((e) => {
-    if (e.scrollWidth || (widthTextValueOverride ?? valueUsed?.toString() ?? "").length > 0)
+    if (e.scrollWidth || (widthTextValueOverride ?? valueUsed?.toString() ?? "") == "")
       setMeasuredWidth(e.scrollWidth.toString() ?? "");
   });
   const ref2 = useRef(null);
