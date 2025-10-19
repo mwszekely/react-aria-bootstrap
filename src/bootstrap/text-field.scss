@@ -82,7 +82,7 @@
     }
 
     &.form-control-explicit-width {
-        width: calc((var(--form-control-explicit-width) * var(--form-width-unit)) + (2 * var(--input-padding-x)) + (2 * #{$input-border-width}) + var(--spinner-padding, 0));
+        width: calc((var(--form-control-explicit-width) * var(--form-width-unit)) + (2 * var(--input-padding-x)) + (2 * #{$input-border-width}) + var(--spinner-padding, 0px));
     }
 
     // Ensure there's always room for a spinner at the end
@@ -93,7 +93,7 @@
         padding-inline-end: calc(var(--input-padding-x));
 
         &.pending {
-            padding-inline-end: calc(var(--input-padding-x) + var(--spinner-padding, 0));
+            padding-inline-end: calc(var(--input-padding-x) + var(--spinner-padding, 0px));
         }
     }
 
