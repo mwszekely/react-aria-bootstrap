@@ -18,6 +18,21 @@
 .form-text-container {
     position: relative;
 
+    &-sm {
+        --input-padding-y: #{$input-padding-y-sm};
+        --input-padding-x: #{$input-padding-x-sm};
+    }
+
+    &-md {
+        --input-padding-y: #{$input-padding-y};
+        --input-padding-x: #{$input-padding-x};
+    }
+
+    &-lg {
+        --input-padding-y: #{$input-padding-y-lg};
+        --input-padding-x: #{$input-padding-x-lg};
+    }
+
     &:not(.form-text-container-inline) {
         flex-direction: column;
         display: grid;
