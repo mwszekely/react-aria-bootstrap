@@ -6,7 +6,7 @@ import { useLocale, useNumberField, useNumberFormatter } from "react-aria";
 import { useNumberFieldState } from "react-stately";
 import { ActionButton } from "./button";
 import { TextFieldStructure, useIsInInputGroup } from "./text-field";
-export function NumberField({ value, min, max, description, validate, formatOptions, noButtons, disabled, onChange, noSpinner, errorMessage, invalid, inline, label, labelPosition, placeholder, readOnly, step, width, widthUnit, variantSize }) {
+export function NumberField({ value, min, max, description, validate, formatOptions, noButtons, disabled, onChange, noSpinner, errorMessage, invalid, inline, minWidth, label, labelPosition, placeholder, readOnly, step, width, widthUnit, variantSize }) {
   const locale = useLocale();
   const [optimistic, setOptimistic] = useState(value);
   variantSize ??= "md";
@@ -73,6 +73,7 @@ export function NumberField({ value, min, max, description, validate, formatOpti
       errorMessageProps,
       inputProps,
       isInvalid,
+      minWidth: minWidth ?? "0px",
       label,
       labelProps,
       groupProps,

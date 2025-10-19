@@ -23,6 +23,7 @@ export interface TextFieldProps {
     variantSize?: "sm" | "md" | "lg";
     labelPosition?: "before" | "hidden";
     width?: number | "auto";
+    minWidth?: string;
     widthUnit?: "ch" | "ic";
     validate?: (input: any) => (true | ValidationError | undefined | null);
     noSpinner?: boolean;
@@ -30,7 +31,7 @@ export interface TextFieldProps {
     inputGroup?: boolean;
     autoComplete?: string;
 }
-export declare function TextField({ text, autoComplete, onChange, validate, label, width, noSpinner, widthUnit, description, inline, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }: TextFieldProps): import("react").JSX.Element;
+export declare function TextField({ text, autoComplete, onChange, validate, label, width, noSpinner, widthUnit, description, inline, minWidth, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }: TextFieldProps): import("react").JSX.Element;
 export interface TextFieldStructureProps extends Pick<TextFieldProps, "variantSize" | "noSpinner" | "description" | "label" | "labelPosition" | "validate" | "maxLength" | "width" | "widthUnit"> {
     labelProps: any;
     inputProps: any;
@@ -43,6 +44,7 @@ export interface TextFieldStructureProps extends Pick<TextFieldProps, "variantSi
     validationErrors: ValidationError[];
     childrenPre?: ReactNode;
     childrenPost?: ReactNode;
+    minWidth: string;
     mode: "solo-input-group" | "embedded-input-group" | "inline-separate" | "default-separate" | "inline-solo-input-group";
     widthTextValueOverride?: string;
 }

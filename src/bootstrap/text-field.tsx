@@ -1,10 +1,11 @@
 import { ValidationError } from '@react-types/shared';
 import { useAsyncToSync } from 'async-to-sync/react';
 import clsx from 'clsx';
-import { cloneElement, createContext, forwardRef, isValidElement, PropsWithChildren, ReactNode, Ref, use, useCallback, useEffect, useRef, useState } from 'react';
+import { cloneElement, createContext, CSSProperties, forwardRef, isValidElement, PropsWithChildren, ReactNode, Ref, use, useEffect, useRef, useState } from 'react';
 import type { AriaTextFieldOptions } from 'react-aria';
 import { mergeProps, useTextField } from 'react-aria';
 import { PendingSpinner } from './spinner';
+import { useEffectEvent } from './util/use-effect-event';
 
 const InputGroupContext = createContext(false);
 
@@ -40,6 +41,7 @@ export interface TextFieldProps {
     //inline?: boolean;
     labelPosition?: "before" | "hidden";
     width?: number | "auto";    // if maxLength is provided, "auto" is based off that, otherwise the width is based on the content.
+    minWidth?: string;          // A CSS value; recommended if setting width to auto.
     widthUnit?: "ch" | "ic";
     validate?: (input: any) => (true | ValidationError | undefined | null);
     noSpinner?: boolean;
@@ -49,7 +51,7 @@ export interface TextFieldProps {
     autoComplete?: string;
 }
 
-export function TextField({ text, autoComplete, onChange, validate, label, width, noSpinner, widthUnit, description, inline, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }: TextFieldProps) {
+export function TextField({ text, autoComplete, onChange, validate, label, width, noSpinner, widthUnit, description, inline, minWidth, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }: TextFieldProps) {
 
     const [optimistic, setOptimistic] = useState("");
     let ref = useRef<HTMLInputElement>(null);
@@ -111,6 +113,7 @@ export function TextField({ text, autoComplete, onChange, validate, label, width
             noSpinner={noSpinner}
             validate={validate}
             variantSize={variantSize}
+            minWidth={minWidth ?? "0px"}
             width={width}
             widthUnit={widthUnit}
             validationErrors={validationErrors}
@@ -130,11 +133,12 @@ export interface TextFieldStructureProps extends Pick<TextFieldProps, "variantSi
     validationErrors: ValidationError[];
     childrenPre?: ReactNode;
     childrenPost?: ReactNode;
+    minWidth: string;
     mode: "solo-input-group" | "embedded-input-group" | "inline-separate" | "default-separate" | "inline-solo-input-group";
     widthTextValueOverride?: string;
 }
 
-export const TextFieldStructure = forwardRef(function TextFieldStructure({ childrenPost, groupProps, widthTextValueOverride, mode, childrenPre, label, description, noSpinner, descriptionProps, isInvalid, errorMessageProps, validationErrors, variantSize, valueUsed, width, inputProps, labelProps, labelPosition, validate, maxLength, widthUnit, pending }: TextFieldStructureProps, ref: Ref<HTMLInputElement>) {
+export const TextFieldStructure = forwardRef(function TextFieldStructure({ childrenPost, minWidth, groupProps, widthTextValueOverride, mode, childrenPre, label, description, noSpinner, descriptionProps, isInvalid, errorMessageProps, validationErrors, variantSize, valueUsed, width, inputProps, labelProps, labelPosition, validate, maxLength, widthUnit, pending }: TextFieldStructureProps, ref: Ref<HTMLInputElement>) {
     //const inInputGroup = useIsInInputGroup();
     let columns = 1;
     if (labelPosition != "hidden")
@@ -168,11 +172,11 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ child
     const spinner = noSpinner ? null : (pending || (inInputGroup2)) && <PendingSpinner labelId={labelProps.id!} pending={pending ?? false} variantSize={variantSize == "lg" ? "md" : "sm"} />;
 
 
-    const updateAutoWidth = useCallback((e: Element) => {
+    const updateAutoWidth = useEffectEvent((e: Element) => {
         // Prevent incorrect measurements when the element is invisible
-        if (e.scrollWidth)
+        if (e.scrollWidth || ((widthTextValueOverride ?? valueUsed?.toString() ?? "").length > 0))
             setMeasuredWidth((e.scrollWidth).toString() ?? "");
-    }, []);
+    });
 
     const ref2 = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -186,7 +190,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ child
     let description2 = <div {...mergeProps(descriptionProps, { className: clsx("form-text") })}>{description}</div>;
     let error2 = <div {...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") })}>{validationErrors.join(' ')}</div>;
     const measure2 = <div ref={(element) => { if (element) updateAutoWidth(element); return () => { } }} aria-hidden="true" className={`form-control form-control-measure form-control-${variantSize}`}>{(widthTextValueOverride ?? valueUsed)}</div>;
-    const input2 = <input {...mergeProps(inputProps, { style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString() } as {} : undefined, className: clsx("form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) })} ref={ref} />;
+    const input2 = <input {...mergeProps(inputProps, { style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } as CSSProperties : { minWidth }, className: clsx("form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) })} ref={ref} />;
     const label2 = <label {...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") })}>{label}</label>;
 
 

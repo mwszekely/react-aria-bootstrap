@@ -6,7 +6,7 @@ import { NumberFieldStateOptions, useNumberFieldState } from "react-stately";
 import { ActionButton } from "./button";
 import { TextFieldProps, TextFieldStructure, useIsInInputGroup } from "./text-field";
 
-export interface NumberFieldProps extends Pick<TextFieldProps, "variantSize" | "widthUnit" | "width" | "inline" | "noSpinner"> {
+export interface NumberFieldProps extends Pick<TextFieldProps, "variantSize" | "widthUnit" | "width" | "inline" | "noSpinner" | "minWidth"> {
     value: number | null;
     min?: number;
     max?: number;
@@ -25,7 +25,7 @@ export interface NumberFieldProps extends Pick<TextFieldProps, "variantSize" | "
     formatOptions?: Intl.NumberFormatOptions
 }
 
-export function NumberField({ value, min, max, description, validate, formatOptions, noButtons, disabled, onChange, noSpinner, errorMessage, invalid, inline, label, labelPosition, placeholder, readOnly, step, width, widthUnit, variantSize }: NumberFieldProps) {
+export function NumberField({ value, min, max, description, validate, formatOptions, noButtons, disabled, onChange, noSpinner, errorMessage, invalid, inline, minWidth, label, labelPosition, placeholder, readOnly, step, width, widthUnit, variantSize }: NumberFieldProps) {
     const locale = useLocale();
 
     const [optimistic, setOptimistic] = useState(value);
@@ -101,6 +101,7 @@ export function NumberField({ value, min, max, description, validate, formatOpti
             errorMessageProps={errorMessageProps}
             inputProps={inputProps}
             isInvalid={isInvalid}
+            minWidth={minWidth ?? "0px"}
             label={label}
             labelProps={labelProps}
             groupProps={groupProps}
