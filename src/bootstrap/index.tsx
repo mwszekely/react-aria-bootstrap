@@ -8,4 +8,6 @@ export { TagGroup, type TagData, type TagGroupProps } from "./tag-group";
 export { InputGroup, InputGroupText, TextField, TextFieldStructure, type TextFieldProps, type TextFieldStructureProps } from "./text-field";
 export { ToggleButton, type ToggleButtonProps } from "./toggle-button";
 export { ToggleButtonGroup, ToggleButtonGroupItem, type ToggleButtonGroupItemProps, type ToggleButtonGroupProps } from "./toggle-button-group";
+export { useEffectEvent } from "./util/use-effect-event";
+export { returnFalse, returnNull, returnTrue, returnUndefined, returnZero, runImmediately, useEnsureStability, usePassiveState, type OnPassiveStateChange, type PassiveStateUpdater } from "./util/use-passive-state";
 
