@@ -7,7 +7,7 @@ import { useToggleGroupState } from "react-stately";
 import { ButtonStructure } from "./util/button-structure";
 const ButtonGroupSize = createContext("md");
 let ToggleButtonGroupContext = createContext(null);
-export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSizeU, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children }) {
+export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSizeU, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }) {
   const ref = useRef(null);
   const { syncOutput } = useAsyncToSync({
     asyncInput: onChangeU
@@ -17,7 +17,7 @@ export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSiz
   let selectedKeys = selected ? [selected] : [];
   const state = useToggleGroupState({ disallowEmptySelection, isDisabled, onSelectionChange: syncOutput, selectedKeys, selectionMode: "single" });
   const { groupProps } = useToggleButtonGroup({ isDisabled, disallowEmptySelection, onSelectionChange: syncOutput, orientation: orientationU, selectedKeys, selectionMode: "single" }, state, ref);
-  return /* @__PURE__ */ jsx(ButtonGroupSize.Provider, { value: variantSizeU ?? "md", children: /* @__PURE__ */ jsx(ToggleButtonGroupContext.Provider, { value: state, children: /* @__PURE__ */ jsx("div", { ...mergeProps(groupProps, { className: "btn-group" }), ref, children }) }) });
+  return /* @__PURE__ */ jsx(ButtonGroupSize.Provider, { value: variantSizeU ?? "md", children: /* @__PURE__ */ jsx(ToggleButtonGroupContext.Provider, { value: state, children: /* @__PURE__ */ jsx("div", { ...mergeProps(groupProps, restProps, { className: "btn-group" }), ref, children }) }) });
 }
 export function ToggleButtonGroupItem({ children, id, disabled: disabledU, fillVariant, themeVariant, themeSpinnerVariant, ...props }) {
   const ref = useRef(null);
