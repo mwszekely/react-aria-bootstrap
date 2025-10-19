@@ -85,7 +85,7 @@ export function NumberField({ value, min, max, description, validate, formatOpti
         <ActionButton outsetVariant="inset" fillVariant="outlined" themeVariant="secondary" {...incrementButtonProps}>+</ActionButton>
         <ActionButton outsetVariant="inset" fillVariant="outlined" themeVariant="secondary" {...decrementButtonProps}>-</ActionButton>
     </div>
-    console.log(incrementButtonProps);
+    
     const inputGroup = true;
 
 

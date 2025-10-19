@@ -29,7 +29,6 @@ function Tag({ state, item, disabledBecauseLast }) {
   const ref = useRef(null);
   let { focusProps, isFocusVisible } = useFocusRing({ within: false });
   const { allowsRemoving, allowsSelection, gridCellProps, isDisabled, isFocused, isPressed, isSelected, removeButtonProps, rowProps } = useTag({ item }, state, ref);
-  console.log(removeButtonProps);
   const { onPress: removeButtonOnPress, isDisabled: removeButtonDisabled, ...restRemoveButtonProps } = removeButtonProps;
   let className = clsx(
     `tag badge`,

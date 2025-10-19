@@ -60,7 +60,6 @@ export function NumberField({ value, min, max, description, validate, formatOpti
     /* @__PURE__ */ jsx(ActionButton, { outsetVariant: "inset", fillVariant: "outlined", themeVariant: "secondary", ...incrementButtonProps, children: "+" }),
     /* @__PURE__ */ jsx(ActionButton, { outsetVariant: "inset", fillVariant: "outlined", themeVariant: "secondary", ...decrementButtonProps, children: "-" })
   ] });
-  console.log(incrementButtonProps);
   const inputGroup = true;
   let textValueFormatter = useNumberFormatter({ ...formatOptions, currencySign: void 0 });
   let textValue = useMemo(() => valueUsed == null || isNaN(valueUsed) ? "" : textValueFormatter.format(valueUsed), [textValueFormatter, valueUsed]);
