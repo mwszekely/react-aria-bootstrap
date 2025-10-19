@@ -4,7 +4,10 @@ import { ThemeVariantExtended } from "./util/theme-variants";
 export interface TagData {
     key: Key;
     content: ReactNode;
-    variantTheme?: ThemeVariantExtended;
+    variantTheme?: ThemeVariantExtended | {
+        bg: string;
+        fg: "black" | "white";
+    };
 }
 export interface TagGroupProps {
     label: ReactNode;

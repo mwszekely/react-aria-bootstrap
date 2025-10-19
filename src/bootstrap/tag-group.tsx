@@ -10,7 +10,6 @@ export interface TagData {
     key: Key;
     content: ReactNode;
     variantTheme?: ThemeVariantExtended | { bg: string; fg: "black" | "white"; };
-
 }
 
 export interface TagGroupProps {
