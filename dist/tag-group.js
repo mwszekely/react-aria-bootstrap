@@ -31,6 +31,28 @@ function Tag({ state, item, disabledBecauseLast }) {
   const { allowsRemoving, allowsSelection, gridCellProps, isDisabled, isFocused, isPressed, isSelected, removeButtonProps, rowProps } = useTag({ item }, state, ref);
   console.log(removeButtonProps);
   const { onPress: removeButtonOnPress, isDisabled: removeButtonDisabled, ...restRemoveButtonProps } = removeButtonProps;
+  let className = clsx(
+    `tag badge`,
+    allowsSelection && !disabledBecauseLast && "selectable",
+    `rounded-pill`
+  );
+  let style = {};
+  if (typeof variantTheme == "object") {
+    style["--tag-color-bg"] = variantTheme.bg;
+    style["--tag-color-fg"] = variantTheme.fg;
+    className = clsx(
+      className,
+      !allowsSelection || isSelected ? `text-bg-manual` : "text-body",
+      `rounded-pill`
+    );
+  } else {
+    className = clsx(
+      className,
+      !allowsSelection || isSelected ? `text-bg-${variantTheme}` : "text-body",
+      `border border-${variantTheme}`,
+      `rounded-pill`
+    );
+  }
   return /* @__PURE__ */ jsx(
     "div",
     {
@@ -38,9 +60,9 @@ function Tag({ state, item, disabledBecauseLast }) {
       ...rowProps,
       ...focusProps,
       "data-focus-visible": isFocusVisible,
-      children: /* @__PURE__ */ jsxs("div", { ...mergeProps(gridCellProps, { className: clsx(`tag badge`, allowsSelection && !disabledBecauseLast && "selectable", !allowsSelection || isSelected ? `text-bg-${variantTheme}` : "text-body", `border border-${variantTheme}`, `rounded-pill`) }), children: [
+      children: /* @__PURE__ */ jsxs("div", { ...mergeProps(gridCellProps, { className, style }), children: [
         item.rendered,
-        allowsRemoving && /* @__PURE__ */ jsx(ActionButton, { fillVariant: "filled", sizeVariant: "sm", outsetVariant: "inset", themeVariant: variantTheme, onPress: removeButtonOnPress, isDisabled: removeButtonDisabled, className: "tag-remove", ...restRemoveButtonProps, children: "\u{1F5D9}" })
+        allowsRemoving && /* @__PURE__ */ jsx(ActionButton, { fillVariant: "filled", sizeVariant: "sm", outsetVariant: "inset", themeVariant: "danger", onPress: removeButtonOnPress, isDisabled: removeButtonDisabled, className: "tag-remove", ...restRemoveButtonProps, children: "\u{1F5D9}" })
       ] })
     }
   );

@@ -9,7 +9,8 @@ import { ThemeVariantExtended } from "./util/theme-variants";
 export interface TagData {
     key: Key;
     content: ReactNode;
-    variantTheme?: ThemeVariantExtended;
+    variantTheme?: ThemeVariantExtended | { bg: string; fg: "black" | "white"; };
+
 }
 
 export interface TagGroupProps {
@@ -72,6 +73,31 @@ function Tag({ state, item, disabledBecauseLast }: TagProps) {
     console.log(removeButtonProps);
     const { onPress: removeButtonOnPress, isDisabled: removeButtonDisabled, ...restRemoveButtonProps } = removeButtonProps;
 
+
+    let className = clsx(
+        `tag badge`,
+        allowsSelection && !disabledBecauseLast && "selectable",
+        `rounded-pill`
+    );
+
+    let style: any = {};
+    if (typeof variantTheme == 'object') {
+        style["--tag-color-bg"] = variantTheme.bg;
+        style["--tag-color-fg"] = variantTheme.fg;
+        className = clsx(
+            className,
+            (!allowsSelection || isSelected) ? `text-bg-manual` : "text-body",
+           `rounded-pill`
+        );
+    }
+    else {
+        className = clsx(
+            className,
+            (!allowsSelection || isSelected) ? `text-bg-${variantTheme}` : "text-body",
+            `border border-${variantTheme}`, `rounded-pill`
+        );
+    }
+
     return (
         <div
             ref={ref}
@@ -79,9 +105,9 @@ function Tag({ state, item, disabledBecauseLast }: TagProps) {
             {...focusProps}
             data-focus-visible={isFocusVisible}
         >
-            <div {...mergeProps(gridCellProps, { className: clsx(`tag badge`, allowsSelection && !disabledBecauseLast && "selectable", (!allowsSelection || isSelected) ? `text-bg-${variantTheme}` : "text-body", `border border-${variantTheme}`, `rounded-pill`) })}>
+            <div {...mergeProps(gridCellProps, { className, style })}>
                 {item.rendered}
-                {allowsRemoving && <ActionButton fillVariant="filled" sizeVariant="sm" outsetVariant="inset" themeVariant={variantTheme} onPress={removeButtonOnPress} isDisabled={removeButtonDisabled} className="tag-remove" {...restRemoveButtonProps as {}}>🗙</ActionButton>}
+                {allowsRemoving && <ActionButton fillVariant="filled" sizeVariant="sm" outsetVariant="inset" themeVariant="danger" onPress={removeButtonOnPress} isDisabled={removeButtonDisabled} className="tag-remove" {...restRemoveButtonProps as {}}>🗙</ActionButton>}
             </div>
         </div>
     );

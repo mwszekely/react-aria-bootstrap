@@ -108,6 +108,7 @@ function TagsDemo() {
             { key: "octagon", content: "Octagon", variantTheme: "warning" },
             { key: "line", content: "Line", variantTheme: "contrasting" },
             { key: "point", content: "Point", variantTheme: "subtle" },
+            { key: "hypercube", content: "Hypercube", variantTheme: { fg: "white", bg: "rgba(4, 4, 155, 1)" } },
         ],
         getKey: i => i.key
     })

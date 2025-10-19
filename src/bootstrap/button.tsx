@@ -10,9 +10,14 @@ export interface ActionButtonProps extends
     onPress?: (e: PressEvent) => (void | undefined | Promise<void | undefined>);
    // disabled?: boolean;
     className?: string;
+
+    /**
+     * Allows overriding the label for the button if its contents themselves do not constitute a valid label.
+     */
+    "aria-label"?: string | null | undefined;
 }
 
-export const ActionButton = forwardRef(function ActionButton({ themeVariant, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...props}: PropsWithChildren<ActionButtonProps>, refU: Ref<HTMLButtonElement>) {
+export const ActionButton = forwardRef(function ActionButton({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...props}: PropsWithChildren<ActionButtonProps>, refU: Ref<HTMLButtonElement>) {
     const ref = useObjectRef(refU);
     
     const {
@@ -34,7 +39,7 @@ export const ActionButton = forwardRef(function ActionButton({ themeVariant, the
 
     const isPending = (pending || asyncDebounce || syncDebounce || false);
     const isDisabled = (props.isDisabled || isPending);
-    let { buttonProps, isPressed } = useButton({ elementType: 'button', onPress: syncOutput, ...props }, ref);
+    let { buttonProps, isPressed } = useButton({ elementType: 'button', onPress: syncOutput, "aria-label": ariaLabel ?? undefined, ...props }, ref);
     let { children, className } = props;
 
     themeVariant = (themeVariant ?? "primary");

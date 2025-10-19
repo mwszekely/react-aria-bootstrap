@@ -114,3 +114,8 @@
         background-color: RGBA(var(--bs-contrasting-rgb), var(--bs-bg-opacity, 1)) !important;
     }
 }
+
+.text-bg-manual {
+    background-color: var(--tag-color-bg) !important;
+    color: var(--tag-color-fg) !important;
+}

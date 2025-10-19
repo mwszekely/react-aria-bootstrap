@@ -4,7 +4,7 @@ import { useAsyncToSync } from "async-to-sync/react";
 import { forwardRef } from "react";
 import { useButton, useObjectRef } from "react-aria";
 import { ButtonStructure } from "./util/button-structure";
-export const ActionButton = forwardRef(function ActionButton2({ themeVariant, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...props }, refU) {
+export const ActionButton = forwardRef(function ActionButton2({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...props }, refU) {
   const ref = useObjectRef(refU);
   const {
     asyncDebounce,
@@ -24,7 +24,7 @@ export const ActionButton = forwardRef(function ActionButton2({ themeVariant, th
   });
   const isPending = pending || asyncDebounce || syncDebounce || false;
   const isDisabled = props.isDisabled || isPending;
-  let { buttonProps, isPressed } = useButton({ elementType: "button", onPress: syncOutput, ...props }, ref);
+  let { buttonProps, isPressed } = useButton({ elementType: "button", onPress: syncOutput, "aria-label": ariaLabel ?? void 0, ...props }, ref);
   let { children, className } = props;
   themeVariant = themeVariant ?? "primary";
   themeSpinnerVariant = themeSpinnerVariant ?? "primary";
