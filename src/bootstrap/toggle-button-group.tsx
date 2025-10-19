@@ -12,6 +12,7 @@ export interface ToggleButtonGroupProps {
     selected: Key | null;
     orientation?: "vertical" | "horizontal";
     variantSize?: "sm" | "md" | "lg";
+    className?: string;
 }
 
 const ButtonGroupSize = createContext<Required<ToggleButtonGroupProps>["variantSize"]>("md");
@@ -23,7 +24,7 @@ export interface ToggleButtonGroupItemProps extends Pick<ButtonStructureProps, "
 
 let ToggleButtonGroupContext = createContext<ToggleGroupState>(null!);
 
-export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSizeU, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children }: PropsWithChildren<ToggleButtonGroupProps>) {
+export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSizeU, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }: PropsWithChildren<ToggleButtonGroupProps>) {
     const ref = useRef<HTMLDivElement>(null);
 
     const { syncOutput } = useAsyncToSync({
@@ -38,7 +39,7 @@ export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSiz
     return (
         <ButtonGroupSize.Provider value={variantSizeU ?? "md"}>
             <ToggleButtonGroupContext.Provider value={state}>
-                <div {...mergeProps(groupProps, { className: "btn-group" })} ref={ref}>{children}</div>
+                <div {...mergeProps(groupProps, restProps, { className: "btn-group" })} ref={ref}>{children}</div>
             </ToggleButtonGroupContext.Provider>
         </ButtonGroupSize.Provider>
     )
