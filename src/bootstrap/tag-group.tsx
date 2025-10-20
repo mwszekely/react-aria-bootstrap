@@ -103,7 +103,7 @@ function Tag({ state, item, disabledBecauseLast }: TagProps) {
             {...focusProps}
             data-focus-visible={isFocusVisible}
         >
-            <div {...mergeProps(gridCellProps, { className, style })}>
+            <div {...mergeProps(gridCellProps, { className, style, "data-tag-id": item.key })}>
                 {item.rendered}
                 {allowsRemoving && <ActionButton fillVariant="filled" sizeVariant="sm" outsetVariant="inset" themeVariant="danger" onPress={removeButtonOnPress} isDisabled={removeButtonDisabled} className="tag-remove" {...restRemoveButtonProps as {}}>🗙</ActionButton>}
             </div>

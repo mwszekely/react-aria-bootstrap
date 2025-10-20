@@ -59,7 +59,7 @@ function Tag({ state, item, disabledBecauseLast }) {
       ...rowProps,
       ...focusProps,
       "data-focus-visible": isFocusVisible,
-      children: /* @__PURE__ */ jsxs("div", { ...mergeProps(gridCellProps, { className, style }), children: [
+      children: /* @__PURE__ */ jsxs("div", { ...mergeProps(gridCellProps, { className, style, "data-tag-id": item.key }), children: [
         item.rendered,
         allowsRemoving && /* @__PURE__ */ jsx(ActionButton, { fillVariant: "filled", sizeVariant: "sm", outsetVariant: "inset", themeVariant: "danger", onPress: removeButtonOnPress, isDisabled: removeButtonDisabled, className: "tag-remove", ...restRemoveButtonProps, children: "\u{1F5D9}" })
       ] })
