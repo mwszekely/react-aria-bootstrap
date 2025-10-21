@@ -13,10 +13,11 @@ export function useIsInInputGroup() {
     return use(InputGroupContext);
 }
 
-export const InputGroup = forwardRef(function InputGroup({ children, ...props }: PropsWithChildren<{ className?: string; }>, ref: Ref<HTMLDivElement>) {
+export const InputGroup = forwardRef(function InputGroup({ children, variantSize, ...props }: PropsWithChildren<{ className?: string; variantSize?: "sm" | "md" | "lg" }>, ref: Ref<HTMLDivElement>) {
+    variantSize ??= "md"
     return (
         <InputGroupContext.Provider value={true}>
-            <div ref={ref} {...mergeProps(props, { className: "input-group" })}>{children}</div>
+            <div ref={ref} {...mergeProps(props, { className: `input-group input-group-${variantSize}` })}>{children}</div>
         </InputGroupContext.Provider>
     )
 })

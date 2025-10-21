@@ -10,8 +10,9 @@ const InputGroupContext = createContext(false);
 export function useIsInInputGroup() {
   return use(InputGroupContext);
 }
-export const InputGroup = forwardRef(function InputGroup2({ children, ...props }, ref) {
-  return /* @__PURE__ */ jsx(InputGroupContext.Provider, { value: true, children: /* @__PURE__ */ jsx("div", { ref, ...mergeProps(props, { className: "input-group" }), children }) });
+export const InputGroup = forwardRef(function InputGroup2({ children, variantSize, ...props }, ref) {
+  variantSize ??= "md";
+  return /* @__PURE__ */ jsx(InputGroupContext.Provider, { value: true, children: /* @__PURE__ */ jsx("div", { ref, ...mergeProps(props, { className: `input-group input-group-${variantSize}` }), children }) });
 });
 export function InputGroupText({ children, ...props }) {
   return /* @__PURE__ */ jsx("div", { ...mergeProps(props, { className: "input-group-text" }), children });

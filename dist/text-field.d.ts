@@ -4,6 +4,7 @@ import type { AriaTextFieldOptions } from 'react-aria';
 export declare function useIsInInputGroup(): boolean;
 export declare const InputGroup: import("react").ForwardRefExoticComponent<{
     className?: string;
+    variantSize?: "sm" | "md" | "lg";
 } & {
     children?: ReactNode | undefined;
 } & import("react").RefAttributes<HTMLDivElement>>;
