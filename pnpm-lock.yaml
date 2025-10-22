@@ -24,7 +24,7 @@ importers:
         specifier: 15.5.3
         version: 15.5.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.93.2)
       react:
-        specifier: 19.1.0
+        specifier: '>=19.1.0'
         version: 19.1.0
       react-aria:
         specifier: ^3.43.2
@@ -33,7 +33,7 @@ importers:
         specifier: ^1.12.2
         version: 1.12.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-dom:
-        specifier: 19.1.0
+        specifier: '>=19.1.0'
         version: 19.1.0(react@19.1.0)
       react-stately:
         specifier: ^3.41.0

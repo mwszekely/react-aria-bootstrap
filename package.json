@@ -14,8 +14,8 @@
     "types": "./dist/types/src/index.d.ts"
   },
   "peerDependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react": ">=19.1.0",
+    "react-dom": ">=19.1.0"
   },
   "dependencies": {
     "@react-aria/live-announcer": "^3.4.4",
