@@ -9,7 +9,7 @@
 .tag-group-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.25em;
+    column-gap: 0.25em;
 }
 
 .tag.badge {
