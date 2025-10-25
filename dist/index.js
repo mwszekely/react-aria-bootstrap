@@ -4,6 +4,7 @@ export { Checkbox } from "./checkbox";
 export { NumberField } from "./number-field";
 export { Radio } from "./radio";
 export { RadioGroup } from "./radio-group";
+export { PendingSpinner } from "./spinner";
 export { Tabs } from "./tabs";
 export { TagGroup } from "./tag-group";
 export { InputGroup, InputGroupText, TextField, TextFieldStructure } from "./text-field";
