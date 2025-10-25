@@ -170,7 +170,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ child
     const inInputGroup2 = (mode == 'solo-input-group' || mode == 'embedded-input-group' || mode == 'inline-solo-input-group' || inALiteralActualInputGroupAlready);
 
     const [measuredWidth, setMeasuredWidth] = useState("");
-    const spinner = noSpinner ? null : (pending || (inInputGroup2)) && <PendingSpinner labelId={labelProps.id!} pending={pending ?? false} variantSize={variantSize == "lg" ? "md" : "sm"} />;
+    const spinner = noSpinner ? null : (pending || (inInputGroup2)) && <PendingSpinner label={"In progress..."} pending={pending ?? false} variantSize={variantSize == "lg" ? "md" : "sm"} />;
 
 
     const updateAutoWidth = useEffectEvent((e: Element) => {

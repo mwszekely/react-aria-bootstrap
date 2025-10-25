@@ -49,7 +49,7 @@ export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinne
     return (
         <button {...mergeProps(props, { tabIndex: 0, className })} ref={ref}>
             <span id={labelId} className="btn-label">{children}</span>
-            <PendingSpinner labelId={labelId} pending={isPending ?? false}  />
+            <PendingSpinner label={"In progress..."} pending={isPending ?? false}  />
         </button>
     );
 })

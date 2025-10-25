@@ -113,7 +113,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ chil
   const inALiteralActualInputGroupAlready = useIsInInputGroup();
   const inInputGroup2 = mode == "solo-input-group" || mode == "embedded-input-group" || mode == "inline-solo-input-group" || inALiteralActualInputGroupAlready;
   const [measuredWidth, setMeasuredWidth] = useState("");
-  const spinner = noSpinner ? null : (pending || inInputGroup2) && /* @__PURE__ */ jsx(PendingSpinner, { labelId: labelProps.id, pending: pending ?? false, variantSize: variantSize == "lg" ? "md" : "sm" });
+  const spinner = noSpinner ? null : (pending || inInputGroup2) && /* @__PURE__ */ jsx(PendingSpinner, { label: "In progress...", pending: pending ?? false, variantSize: variantSize == "lg" ? "md" : "sm" });
   const updateAutoWidth = useEffectEvent((e) => {
     if (e.scrollWidth || (widthTextValueOverride ?? valueUsed?.toString() ?? "") == "")
       setMeasuredWidth(e.scrollWidth.toString() ?? "");

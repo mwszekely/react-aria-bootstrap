@@ -32,6 +32,6 @@ export const ButtonStructure = forwardRef(function ButtonStructure2({ themeSpinn
   );
   return /* @__PURE__ */ jsxs("button", { ...mergeProps(props, { tabIndex: 0, className }), ref, children: [
     /* @__PURE__ */ jsx("span", { id: labelId, className: "btn-label", children }),
-    /* @__PURE__ */ jsx(PendingSpinner, { labelId, pending: isPending ?? false })
+    /* @__PURE__ */ jsx(PendingSpinner, { label: "In progress...", pending: isPending ?? false })
   ] });
 });

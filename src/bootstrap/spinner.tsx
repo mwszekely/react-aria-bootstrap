@@ -1,18 +1,19 @@
 import { announce } from "@react-aria/live-announcer";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useId, useState } from "react";
 import { mergeProps, useProgressBar } from "react-aria";
 
 export interface PendingSpinnerProps {
     pending: boolean;
     timeout?: number;
-    labelId: string;
+    label: ReactNode;
     variantSize?: "sm" | "md" | "lg";
     variantStyle?: "spin" | "grow";
 }
 
-export function PendingSpinner({ pending, variantStyle, variantSize, timeout, labelId, ...props }: PendingSpinnerProps) {
+export function PendingSpinner({ pending, variantStyle, variantSize, timeout, label, ...props }: PendingSpinnerProps) {
     const [showingSpinner, setShowingSpinner] = useState(false);
+    const labelId = useId();
     const { labelProps, progressBarProps } = useProgressBar({ isIndeterminate: true, "aria-labelledby": labelId, ...props });
     variantSize ??= "md"
     timeout ??= 250;
@@ -42,7 +43,7 @@ export function PendingSpinner({ pending, variantStyle, variantSize, timeout, la
     return (
         <div aria-hidden={pending? undefined : "true"} className={clsx("spinner", showingSpinner ? "opacity-100" : "opacity-0")}>
             <div {...p}>
-                <span className="visually-hidden">In progress...</span>
+                <span id={labelId} className="visually-hidden">{label}</span>
             </div>
         </div>
     )
