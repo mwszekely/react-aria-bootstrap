@@ -23,10 +23,11 @@ export interface TagGroupProps {
     onSelectionChange?: (keys: Selection) => void;
     labelPosition?: "before" | "hidden";
     disallowEmptySelection?: boolean;
+    className?: string;
 }
 
 type AriaTagGroupOptions = Parameters<(typeof useTagGroup<TagData>)>[0];
-export function TagGroup({ label, description, errorMessage, items, selectionMode, labelPosition, disallowEmptySelection, onRemove, onSelectionChange, ...otherProps }: TagGroupProps) {
+export function TagGroup({ label, description, errorMessage, items, selectionMode, labelPosition, className, disallowEmptySelection, onRemove, onSelectionChange, ...otherProps }: TagGroupProps) {
     labelPosition ??= "before";
     const RacProps: AriaTagGroupOptions = { items, selectionMode, errorMessage, description, onRemove, onSelectionChange, disallowEmptySelection };
     if (labelPosition == 'hidden')
@@ -40,7 +41,7 @@ export function TagGroup({ label, description, errorMessage, items, selectionMod
     const { gridProps, descriptionProps, errorMessageProps, labelProps } = useTagGroup(RacProps, state, ref);
 
     return (
-        <div {...mergeProps(otherProps, { className: "tag-group" })}>
+        <div {...mergeProps(otherProps, { className: clsx("tag-group", className) })}>
             {labelPosition == "before" && <div {...mergeProps(labelProps, { className: "tag-group-label" })}>{label}</div>}
             <div {...mergeProps(gridProps, { className: "tag-group-tags" })} ref={ref}>{[...state.collection].map(item => <Tag key={item.key} item={item} state={state} disabledBecauseLast={!!disallowEmptySelection && state.selectionManager.selectedKeys.has(item.key) && state.selectionManager.selectedKeys.size <= 1} />)}</div>
             {description && (

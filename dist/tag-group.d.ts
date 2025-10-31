@@ -19,5 +19,6 @@ export interface TagGroupProps {
     onSelectionChange?: (keys: Selection) => void;
     labelPosition?: "before" | "hidden";
     disallowEmptySelection?: boolean;
+    className?: string;
 }
-export declare function TagGroup({ label, description, errorMessage, items, selectionMode, labelPosition, disallowEmptySelection, onRemove, onSelectionChange, ...otherProps }: TagGroupProps): import("react").JSX.Element;
+export declare function TagGroup({ label, description, errorMessage, items, selectionMode, labelPosition, className, disallowEmptySelection, onRemove, onSelectionChange, ...otherProps }: TagGroupProps): import("react").JSX.Element;

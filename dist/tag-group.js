@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { mergeProps, useFocusRing, useTag, useTagGroup } from "react-aria";
 import { Item, useListState } from "react-stately";
 import { ActionButton } from "./button";
-export function TagGroup({ label, description, errorMessage, items, selectionMode, labelPosition, disallowEmptySelection, onRemove, onSelectionChange, ...otherProps }) {
+export function TagGroup({ label, description, errorMessage, items, selectionMode, labelPosition, className, disallowEmptySelection, onRemove, onSelectionChange, ...otherProps }) {
   labelPosition ??= "before";
   const RacProps = { items, selectionMode, errorMessage, description, onRemove, onSelectionChange, disallowEmptySelection };
   if (labelPosition == "hidden")
@@ -17,7 +17,7 @@ export function TagGroup({ label, description, errorMessage, items, selectionMod
   } });
   const ref = useRef(null);
   const { gridProps, descriptionProps, errorMessageProps, labelProps } = useTagGroup(RacProps, state, ref);
-  return /* @__PURE__ */ jsxs("div", { ...mergeProps(otherProps, { className: "tag-group" }), children: [
+  return /* @__PURE__ */ jsxs("div", { ...mergeProps(otherProps, { className: clsx("tag-group", className) }), children: [
     labelPosition == "before" && /* @__PURE__ */ jsx("div", { ...mergeProps(labelProps, { className: "tag-group-label" }), children: label }),
     /* @__PURE__ */ jsx("div", { ...mergeProps(gridProps, { className: "tag-group-tags" }), ref, children: [...state.collection].map((item) => /* @__PURE__ */ jsx(Tag, { item, state, disabledBecauseLast: !!disallowEmptySelection && state.selectionManager.selectedKeys.has(item.key) && state.selectionManager.selectedKeys.size <= 1 }, item.key)) }),
     description && /* @__PURE__ */ jsx("div", { ...descriptionProps, className: "tag-group-description", children: description }),
