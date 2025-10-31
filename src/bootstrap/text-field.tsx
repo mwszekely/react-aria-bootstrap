@@ -187,14 +187,14 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ class
             updateAutoWidth(ref2.current);
     }, [width, valueUsed]);
 
-    function columnize(input: any, c?: string) { return <div className={clsx("col-auto", c)}>{input}</div>; }
-    function textInputize(input: any, c?: string) { return isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : <div className="input-group-text">{input}</div>; }
+    function columnize(input: any, c?: string) { return !c? null :  <div className={clsx("col-auto", c)}>{input}</div>; }
+    function textInputize(input: any, c?: string) { return !c? null : isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : <div className="input-group-text">{input}</div>; }
 
     let description2 = <div {...mergeProps(descriptionProps, { className: clsx("form-text") })}>{description}</div>;
     let error2 = <div {...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") })}>{validationErrors.join(' ')}</div>;
     const measure2 = <div ref={(element) => { if (element) updateAutoWidth(element); return () => { } }} aria-hidden="true" className={`form-control form-control-measure form-control-${variantSize}`}>{(widthTextValueOverride ?? valueUsed)}</div>;
     const input2 = <input {...mergeProps(inputProps, { style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } as CSSProperties : { minWidth }, className: clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) })} ref={ref} />;
-    const label2 = <label {...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") })}>{label}</label>;
+    const label2 = labelPosition == "before" && <label {...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") })}>{label}</label>;
 
 
     let noSpinnerPadding = (inALiteralActualInputGroupAlready || noSpinner || mode == 'solo-input-group' || mode == 'inline-solo-input-group' || mode == 'embedded-input-group');

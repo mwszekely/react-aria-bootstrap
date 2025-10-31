@@ -125,10 +125,10 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ clas
       updateAutoWidth(ref2.current);
   }, [width, valueUsed]);
   function columnize(input, c) {
-    return /* @__PURE__ */ jsx("div", { className: clsx("col-auto", c), children: input });
+    return !c ? null : /* @__PURE__ */ jsx("div", { className: clsx("col-auto", c), children: input });
   }
   function textInputize(input, c) {
-    return isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : /* @__PURE__ */ jsx("div", { className: "input-group-text", children: input });
+    return !c ? null : isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : /* @__PURE__ */ jsx("div", { className: "input-group-text", children: input });
   }
   let description2 = /* @__PURE__ */ jsx("div", { ...mergeProps(descriptionProps, { className: clsx("form-text") }), children: description });
   let error2 = /* @__PURE__ */ jsx("div", { ...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") }), children: validationErrors.join(" ") });
@@ -138,7 +138,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ clas
     };
   }, "aria-hidden": "true", className: `form-control form-control-measure form-control-${variantSize}`, children: widthTextValueOverride ?? valueUsed });
   const input2 = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } : { minWidth }, className: clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) }), ref });
-  const label2 = /* @__PURE__ */ jsx("label", { ...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") }), children: label });
+  const label2 = labelPosition == "before" && /* @__PURE__ */ jsx("label", { ...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") }), children: label });
   let noSpinnerPadding = inALiteralActualInputGroupAlready || noSpinner || mode == "solo-input-group" || mode == "inline-solo-input-group" || mode == "embedded-input-group";
   if (mode == "inline-separate") {
     return /* @__PURE__ */ jsxs("div", { ...groupProps, className: clsx(className, "form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`, `row form-text-container-inline`, `g-${columns}`), children: [
