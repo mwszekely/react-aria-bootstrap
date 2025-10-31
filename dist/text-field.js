@@ -17,7 +17,7 @@ export const InputGroup = forwardRef(function InputGroup2({ children, variantSiz
 export function InputGroupText({ children, ...props }) {
   return /* @__PURE__ */ jsx("div", { ...mergeProps(props, { className: "input-group-text" }), children });
 }
-export function TextField({ text, autoComplete, onChange, validate, label, width, noSpinner, widthUnit, description, inline, minWidth, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }) {
+export function TextField({ text, autoComplete, onChange, validate, className, label, width, noSpinner, widthUnit, description, inline, minWidth, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }) {
   const [optimistic, setOptimistic] = useState("");
   let ref = useRef(null);
   variantSize ??= "md";
@@ -64,6 +64,7 @@ export function TextField({ text, autoComplete, onChange, validate, label, width
   return /* @__PURE__ */ jsx(
     TextFieldStructure,
     {
+      className,
       mode,
       ref,
       isInvalid,
@@ -88,7 +89,7 @@ export function TextField({ text, autoComplete, onChange, validate, label, width
     }
   );
 }
-export const TextFieldStructure = forwardRef(function TextFieldStructure2({ childrenPost, minWidth, groupProps, widthTextValueOverride, mode, childrenPre, label, description, noSpinner, descriptionProps, isInvalid, errorMessageProps, validationErrors, variantSize, valueUsed, width, inputProps, labelProps, labelPosition, validate, maxLength, widthUnit, pending }, ref) {
+export const TextFieldStructure = forwardRef(function TextFieldStructure2({ className, childrenPost, minWidth, groupProps, widthTextValueOverride, mode, childrenPre, label, description, noSpinner, descriptionProps, isInvalid, errorMessageProps, validationErrors, variantSize, valueUsed, width, inputProps, labelProps, labelPosition, validate, maxLength, widthUnit, pending }, ref) {
   let columns = 1;
   if (labelPosition != "hidden")
     ++columns;
@@ -136,11 +137,11 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ chil
     return () => {
     };
   }, "aria-hidden": "true", className: `form-control form-control-measure form-control-${variantSize}`, children: widthTextValueOverride ?? valueUsed });
-  const input2 = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } : { minWidth }, className: clsx("form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) }), ref });
+  const input2 = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } : { minWidth }, className: clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) }), ref });
   const label2 = /* @__PURE__ */ jsx("label", { ...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") }), children: label });
   let noSpinnerPadding = inALiteralActualInputGroupAlready || noSpinner || mode == "solo-input-group" || mode == "inline-solo-input-group" || mode == "embedded-input-group";
   if (mode == "inline-separate") {
-    return /* @__PURE__ */ jsxs("div", { ...groupProps, className: clsx("form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`, `row form-text-container-inline`, `g-${columns}`), children: [
+    return /* @__PURE__ */ jsxs("div", { ...groupProps, className: clsx(className, "form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`, `row form-text-container-inline`, `g-${columns}`), children: [
       columnize(label2),
       childrenPre,
       columnize(/* @__PURE__ */ jsxs(Fragment, { children: [
@@ -153,7 +154,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ chil
       validate && columnize(error2)
     ] });
   } else if (mode == "default-separate") {
-    return /* @__PURE__ */ jsxs("div", { ...groupProps, className: clsx("form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`), children: [
+    return /* @__PURE__ */ jsxs("div", { ...groupProps, className: clsx(className, "form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`), children: [
       label2,
       childrenPre,
       /* @__PURE__ */ jsxs("div", { className: "form-text-container-spinner-container position-relative", children: [
@@ -178,7 +179,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ chil
     ] });
   } else if (mode == "solo-input-group") {
     columns = labelPosition == "hidden" ? 1 : 2;
-    return /* @__PURE__ */ jsxs("div", { className: clsx("form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`, `g-${columns}`), children: [
+    return /* @__PURE__ */ jsxs("div", { className: clsx(className, "form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`, `g-${columns}`), children: [
       label2,
       /* @__PURE__ */ jsxs(InputGroup, { ...groupProps, children: [
         childrenPre,
@@ -192,7 +193,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ chil
     ] });
   } else if (mode == "inline-solo-input-group") {
     columns = labelPosition == "hidden" ? 1 : 2;
-    return /* @__PURE__ */ jsxs("div", { className: clsx("form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`, `row form-text-container-inline`, `g-${columns}`), children: [
+    return /* @__PURE__ */ jsxs("div", { className: clsx(className, "form-text-container", `form-text-container-${variantSize}`, noSpinnerPadding && `form-text-container-no-spinner-padding`, `row form-text-container-inline`, `g-${columns}`), children: [
       columnize(label2),
       columnize(
         /* @__PURE__ */ jsxs(InputGroup, { ...groupProps, children: [
