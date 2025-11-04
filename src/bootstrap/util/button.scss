@@ -418,6 +418,7 @@ $bonus-theme-colors: (
         }
 
         &.pressing,
+        &.selected,
         &.pending,
         &:focus {
             background-color: var(--bs-btn-active-bg);
