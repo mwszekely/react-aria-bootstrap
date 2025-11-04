@@ -8,7 +8,6 @@ export interface ActionButtonProps extends
     Pick<ButtonStructureProps, "themeVariant" | "fillVariant" | "outsetVariant" | "sizeVariant" | "themeSpinnerVariant">,
     Pick<AriaButtonProps, "isDisabled"> {
     onPress?: (e: PressEvent) => (void | undefined | Promise<void | undefined>);
-   // disabled?: boolean;
     className?: string;
 
     /**
@@ -17,9 +16,9 @@ export interface ActionButtonProps extends
     "aria-label"?: string | null | undefined;
 }
 
-export const ActionButton = forwardRef(function ActionButton({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...props}: PropsWithChildren<ActionButtonProps>, refU: Ref<HTMLButtonElement>) {
+export const ActionButton = forwardRef(function ActionButton({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...props }: PropsWithChildren<ActionButtonProps>, refU: Ref<HTMLButtonElement>) {
     const ref = useObjectRef(refU);
-    
+
     const {
         asyncDebounce,
         hasError,

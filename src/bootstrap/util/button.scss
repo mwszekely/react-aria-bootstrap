@@ -209,7 +209,7 @@ $bonus-theme-colors: (
         --bs-btn-active-shadow: var(--bs-btn-pressing-shadow);
         --bs-btn-box-shadow:    var(--bs-btn-pressing-shadow);
     }
-    &.pressed {
+    &.selected {
         --bs-btn-active-shadow: var(--bs-btn-pressed-shadow);
         --bs-btn-box-shadow:    var(--bs-btn-pressed-shadow);
     }
@@ -229,7 +229,7 @@ $bonus-theme-colors: (
         --bs-btn-box-shadow: var(--bs-btn-pressing-shadow);
     }
 
-    &.pressed {
+    &.selected {
         --bs-btn-box-shadow: var(--bs-btn-pressed-shadow);
     }
 
@@ -273,7 +273,7 @@ $bonus-theme-colors: (
             transition: transform #{$btn-transition-duration} ease-in-out;
         }
 
-        &.pressing, &.pressed, &.pending {
+        &.pressing, &.selected, &.pending {
             &>.btn-label {
                 transform: translateY(calc(var(--bs-btn-z-height-base)));
             }
@@ -320,7 +320,7 @@ $bonus-theme-colors: (
             transition: transform #{$btn-transition-duration} ease-in-out;
         }
 
-        &.pressing, &.pressed, &.pending {
+        &.pressing, &.selected, &.pending {
             &>.btn-label {
                 transform: translateY(calc(var(--bs-btn-z-height-base) / 2));
             }
@@ -470,7 +470,7 @@ $bonus-theme-colors: (
     --bs-spinner-top-offset: 0;
     
     &.tactile {
-        &.pressed, &.pressing, &.pending {
+        &.selected, &.pressing, &.pending {
             --bs-spinner-top-offset: var(--bs-btn-z-height-base, 0);
         }
     }

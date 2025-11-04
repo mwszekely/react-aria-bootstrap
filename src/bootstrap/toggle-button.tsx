@@ -5,13 +5,13 @@ import { useToggleState } from "react-stately";
 import { ButtonStructure, ButtonStructureProps } from "./util/button-structure";
 
 export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">, Partial<Pick<ButtonStructureProps, "fillVariant" | "themeVariant" | "sizeVariant" | "outsetVariant" | "themeSpinnerVariant">> {
-    pressed: boolean;
+    selected: boolean;
     disabled?: boolean | null | undefined;
     readOnly?: boolean | null | undefined;
-    onChange: ((pressed: boolean | null) => (void | Promise<void>)) | null | undefined;
+    onChange: ((pressed: boolean) => (void | Promise<void>)) | null | undefined;
 }
 
-export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, pressed: pressedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, themeSpinnerVariant: themeSpinnerVariantU, ...props}: PropsWithChildren<ToggleButtonProps>) {
+export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, selected: selectedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, themeSpinnerVariant: themeSpinnerVariantU, ...props}: PropsWithChildren<ToggleButtonProps>) {
     const ref = useRef<HTMLDivElement>(null);
     const { syncOutput, pending, syncDebounce, asyncDebounce } = useAsyncToSync({
         asyncInput: onChangeU,
@@ -21,7 +21,7 @@ export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange
     let isPending = (pending || syncDebounce || asyncDebounce || false);
     let isReadOnly = (readOnlyU || false);
     let isDisabled = (disabledU || false);
-    const state = useToggleState({ isDisabled, isReadOnly, isSelected: pressedU, onChange: syncOutput });
+    const state = useToggleState({ isDisabled, isReadOnly, isSelected: selectedU, onChange: syncOutput });
     const { buttonProps, isPressed } = useToggleButton({ isDisabled }, state, ref);
 
 

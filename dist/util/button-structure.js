@@ -22,11 +22,11 @@ export const ButtonStructure = forwardRef(function ButtonStructure2({ themeSpinn
     `btn-${sizeVariant}`,
     outsetVariant == "flat" ? "" : "tactile",
     outsetVariant != "flat" && `btn-tactile-${outsetVariant}`,
-    isSelected && "pressed",
     `btn-${fillVariant == "outlined" ? "outline" : "fill"}`,
     `btn-${fillVariant == "outlined" ? "outline-" : ""}${themeVariant}`,
     `btn-theme-${themeVariant}`,
     isPending && "pending",
+    isSelected && "selected",
     isDisabled && "disabled",
     isBeingPressed && "pressing"
   );

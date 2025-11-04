@@ -125,7 +125,7 @@ function TB() {
     const [pressed, setPressed] = useState<boolean | null>(false);
 
     return (
-        <ToggleButton onChange={setPressed} pressed={pressed ?? false} themeVariant="info" fillVariant="filled">Toggle</ToggleButton>
+        <ToggleButton onChange={setPressed} selected={pressed ?? false} themeVariant="info" fillVariant="filled">Toggle</ToggleButton>
     )
 }
 
