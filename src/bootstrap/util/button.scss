@@ -212,7 +212,9 @@ $bonus-theme-colors: (
     &.selected {
         --bs-btn-active-shadow: var(--bs-btn-pressed-shadow);
         --bs-btn-box-shadow:    var(--bs-btn-pressed-shadow);
-        background: var(--bs-btn-active-shadow);
+        --bs-btn-box-shadow: var(--bs-btn-pressed-shadow);
+        color: var(--bs-btn-active-color);
+        background: var(--bs-btn-active-bg);
     }
 
     // When disabled, use the same shadow as being pressed
@@ -228,10 +230,6 @@ $bonus-theme-colors: (
     --bs-btn-box-shadow: var(--bs-btn-default-shadow);
     &.pressing {
         --bs-btn-box-shadow: var(--bs-btn-pressing-shadow);
-    }
-
-    &.selected {
-        --bs-btn-box-shadow: var(--bs-btn-pressed-shadow);
     }
 
     &.btn-tactile-inset {
