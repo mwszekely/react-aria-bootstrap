@@ -17,7 +17,7 @@ export const InputGroup = forwardRef(function InputGroup2({ children, variantSiz
 export function InputGroupText({ children, ...props }) {
   return /* @__PURE__ */ jsx("div", { ...mergeProps(props, { className: "input-group-text" }), children });
 }
-export function TextField({ text, autoComplete, onChange, validate, className, label, width, noSpinner, widthUnit, description, inline, minWidth, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }) {
+export function TextField({ type, text, autoComplete, onChange, validate, className, label, width, noSpinner, widthUnit, description, inline, minWidth, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }) {
   const [optimistic, setOptimistic] = useState("");
   let ref = useRef(null);
   variantSize ??= "md";
@@ -40,7 +40,7 @@ export function TextField({ text, autoComplete, onChange, validate, className, l
     validationErrors,
     validationDetails
   } = useTextField({
-    type: "text",
+    type: type ?? "text",
     value: valueUsed,
     onChange: syncOutput,
     placeholder,
@@ -65,6 +65,7 @@ export function TextField({ text, autoComplete, onChange, validate, className, l
     TextFieldStructure,
     {
       className,
+      type,
       mode,
       ref,
       isInvalid,
@@ -89,7 +90,7 @@ export function TextField({ text, autoComplete, onChange, validate, className, l
     }
   );
 }
-export const TextFieldStructure = forwardRef(function TextFieldStructure2({ className, childrenPost, minWidth, groupProps, widthTextValueOverride, mode, childrenPre, label, description, noSpinner, descriptionProps, isInvalid, errorMessageProps, validationErrors, variantSize, valueUsed, width, inputProps, labelProps, labelPosition, validate, maxLength, widthUnit, pending }, ref) {
+export const TextFieldStructure = forwardRef(function TextFieldStructure2({ type, className, childrenPost, minWidth, groupProps, widthTextValueOverride, mode, childrenPre, label, description, noSpinner, descriptionProps, isInvalid, errorMessageProps, validationErrors, variantSize, valueUsed, width, inputProps, labelProps, labelPosition, validate, maxLength, widthUnit, pending }, ref) {
   let columns = 1;
   if (labelPosition != "hidden")
     ++columns;
@@ -137,7 +138,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ clas
     return () => {
     };
   }, "aria-hidden": "true", className: `form-control form-control-measure form-control-${variantSize}`, children: widthTextValueOverride ?? valueUsed });
-  const input2 = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } : { minWidth }, className: clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) }), ref });
+  const input2 = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { type: type ?? "text", style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } : { minWidth }, className: clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) }), ref });
   const label2 = labelPosition == "before" && /* @__PURE__ */ jsx("label", { ...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") }), children: label });
   let noSpinnerPadding = inALiteralActualInputGroupAlready || noSpinner || mode == "solo-input-group" || mode == "inline-solo-input-group" || mode == "embedded-input-group";
   if (mode == "inline-separate") {

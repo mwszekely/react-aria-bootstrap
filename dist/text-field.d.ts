@@ -32,9 +32,10 @@ export interface TextFieldProps {
     inputGroup?: boolean;
     autoComplete?: string;
     className?: string;
+    type?: "text" | "search" | "password" | "email";
 }
-export declare function TextField({ text, autoComplete, onChange, validate, className, label, width, noSpinner, widthUnit, description, inline, minWidth, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }: TextFieldProps): import("react").JSX.Element;
-export interface TextFieldStructureProps extends Pick<TextFieldProps, "variantSize" | "className" | "noSpinner" | "description" | "label" | "labelPosition" | "validate" | "maxLength" | "width" | "widthUnit"> {
+export declare function TextField({ type, text, autoComplete, onChange, validate, className, label, width, noSpinner, widthUnit, description, inline, minWidth, inputGroup, placeholder, labelPosition, inputMode, disabled, maxLength, minLength, name, variantSize, readOnly, ...otherProps }: TextFieldProps): import("react").JSX.Element;
+export interface TextFieldStructureProps extends Pick<TextFieldProps, "type" | "variantSize" | "className" | "noSpinner" | "description" | "label" | "labelPosition" | "validate" | "maxLength" | "width" | "widthUnit"> {
     labelProps: any;
     inputProps: any;
     descriptionProps: any;
