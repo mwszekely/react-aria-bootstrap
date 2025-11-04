@@ -167,7 +167,7 @@ $bonus-theme-colors: (
 // contrast reasons
 .btn.btn-outline {
     --bs-btn-hover-bg: color(from var(--bs-theme-color) srgb r g b / 33.33%);
-    --bs-btn-active-bg: color(from var(--bs-theme-color) srgb r g b / 33.33%);
+    --bs-btn-active-bg: color(from var(--bs-theme-color) srgb r g b / 22.5%);
     --bs-btn-hover-color: var(--bs-body-color);
     --bs-btn-color: var(--bs-body-color);
     --bs-btn-active-color: var(--bs-body-color);
@@ -230,6 +230,10 @@ $bonus-theme-colors: (
     --bs-btn-box-shadow: var(--bs-btn-default-shadow);
     &.pressing {
         --bs-btn-box-shadow: var(--bs-btn-pressing-shadow);
+    }
+
+    &.btn-outline {
+        --bs-btn-bg: var(--bs-body-bg);
     }
 
     &.btn-tactile-inset {
