@@ -133,7 +133,7 @@ function TBG() {
     const [pressed, setPressed] = useState<Key | null>(null);
 
     return (
-        <ToggleButtonGroup selected={pressed} onChange={s => setPressed([...s.values()][0])}>
+        <ToggleButtonGroup selectionMode="single" selected={pressed} onChange={s => setPressed(s)}>
             {ThemeVariants.map(v => <TBGC key={v} themeVariant={v} />)}
         </ToggleButtonGroup>
     )

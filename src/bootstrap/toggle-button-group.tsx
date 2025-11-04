@@ -5,14 +5,26 @@ import { Key, ToggleGroupState, useToggleGroupState } from "react-stately";
 import { ButtonStructure, ButtonStructureProps } from "./util/button-structure";
 
 
-export interface ToggleButtonGroupProps {
+export type ToggleButtonGroupProps = ToggleButtonGroupSingleProps | ToggleButtonGroupMultiProps;
+
+interface ToggleButtonGroupSharedProps {
     disallowEmptySelection?: boolean | null | undefined;
-    disabled?: boolean | null | undefined;
-    onChange: ((a: Set<Key>) => (void | Promise<void>)) | null | undefined;
-    selected: Key | null;
     orientation?: "vertical" | "horizontal";
     variantSize?: "sm" | "md" | "lg";
     className?: string;
+    disabled?: boolean;
+}
+
+interface ToggleButtonGroupSingleProps extends ToggleButtonGroupSharedProps {
+    onChange: ((a: Key) => (void | Promise<void>)) | null | undefined;
+    selected: Key | null;
+    selectionMode: "single";
+}
+
+interface ToggleButtonGroupMultiProps extends ToggleButtonGroupSharedProps {
+    onChange: ((a: Set<Key>) => (void | Promise<void>)) | null | undefined;
+    selected: Set<Key> | null;
+    selectionMode: "multiple";
 }
 
 const ButtonGroupSize = createContext<Required<ToggleButtonGroupProps>["variantSize"]>("md");
@@ -24,7 +36,41 @@ export interface ToggleButtonGroupItemProps extends Pick<ButtonStructureProps, "
 
 let ToggleButtonGroupContext = createContext<ToggleGroupState>(null!);
 
-export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSizeU, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }: PropsWithChildren<ToggleButtonGroupProps>) {
+export function ToggleButtonGroup(props: PropsWithChildren<ToggleButtonGroupProps>) {
+    if (props.selectionMode == 'single') {
+        return <ToggleButtonGroupSingle {...props} />
+
+    }
+    else if (props.selectionMode == 'multiple') {
+        return <ToggleButtonGroupMulti {...props} />
+    }
+}
+
+
+
+function ToggleButtonGroupSingle({ disabled: disabledU, variantSize: variantSizeU, selectionMode, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }: PropsWithChildren<ToggleButtonGroupSingleProps>) {
+    const ref = useRef<HTMLDivElement>(null);
+
+    const { syncOutput } = useAsyncToSync<void, [a: Key], [a: Set<Key>]>({
+        capture: k => ([[...k.values()][0]]),
+        asyncInput: onChangeU
+    });
+    let isDisabled = disabledU || false;
+    let disallowEmptySelection = disallowEmptySelectionU || false;
+    let selectedKeys = selected ? [selected] : [];
+    const state = useToggleGroupState({ disallowEmptySelection, isDisabled, onSelectionChange: syncOutput, selectedKeys, selectionMode });
+    const { groupProps } = useToggleButtonGroup({ isDisabled, disallowEmptySelection, onSelectionChange: syncOutput, orientation: orientationU, selectedKeys, selectionMode }, state, ref);
+
+    return (
+        <ButtonGroupSize.Provider value={variantSizeU ?? "md"}>
+            <ToggleButtonGroupContext.Provider value={state}>
+                <div {...mergeProps(groupProps, restProps, { className: "btn-group" })} ref={ref}>{children}</div>
+            </ToggleButtonGroupContext.Provider>
+        </ButtonGroupSize.Provider>
+    )
+}
+
+function ToggleButtonGroupMulti({ disabled: disabledU, variantSize: variantSizeU, selectionMode, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }: PropsWithChildren<ToggleButtonGroupMultiProps>) {
     const ref = useRef<HTMLDivElement>(null);
 
     const { syncOutput } = useAsyncToSync({
@@ -32,9 +78,9 @@ export function ToggleButtonGroup({ disabled: disabledU, variantSize: variantSiz
     });
     let isDisabled = disabledU || false;
     let disallowEmptySelection = disallowEmptySelectionU || false;
-    let selectedKeys = selected? [selected] : [];
-    const state = useToggleGroupState({ disallowEmptySelection, isDisabled, onSelectionChange: syncOutput, selectedKeys, selectionMode: "single" });
-    const { groupProps } = useToggleButtonGroup({ isDisabled, disallowEmptySelection, onSelectionChange: syncOutput, orientation: orientationU, selectedKeys, selectionMode: "single" }, state, ref);
+    let selectedKeys = selected ?? [];
+    const state = useToggleGroupState({ disallowEmptySelection, isDisabled, onSelectionChange: syncOutput, selectedKeys, selectionMode });
+    const { groupProps } = useToggleButtonGroup({ isDisabled, disallowEmptySelection, onSelectionChange: syncOutput, orientation: orientationU, selectedKeys, selectionMode }, state, ref);
 
     return (
         <ButtonGroupSize.Provider value={variantSizeU ?? "md"}>
@@ -52,5 +98,5 @@ export function ToggleButtonGroupItem({ children, id, disabled: disabledU, fillV
     const { buttonProps, isPressed, isSelected } = useToggleButtonGroupItem({ id, isDisabled }, state, ref);
     const sizeVariant = useContext(ButtonGroupSize);
 
-    return <ButtonStructure themeVariant={themeVariant ?? null} isBeingPressed={isPressed} themeSpinnerVariant={themeSpinnerVariant ?? null} fillVariant={fillVariant ?? null} sizeVariant={sizeVariant} isSelected={isSelected} outsetVariant={isPressed? "inset" : "outset"} isDisabled={isDisabled} isPending={false} {...mergeProps(buttonProps, props)}>{children}</ButtonStructure>
+    return <ButtonStructure themeVariant={themeVariant ?? null} isBeingPressed={isPressed} themeSpinnerVariant={themeSpinnerVariant ?? null} fillVariant={fillVariant ?? null} sizeVariant={sizeVariant} isSelected={isSelected} outsetVariant={isPressed ? "inset" : "outset"} isDisabled={isDisabled} isPending={false} {...mergeProps(buttonProps, props)}>{children}</ButtonStructure>
 }
