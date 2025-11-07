@@ -11,12 +11,6 @@ export const ButtonStructure = forwardRef(function ButtonStructure2({ themeSpinn
   fillVariant ??= "filled";
   themeSpinnerVariant ??= "info";
   themeVariant ??= "primary";
-  if (isSelected != null) {
-    if (isSelected)
-      outsetVariant = isBeingPressed ? "inset" : "inset";
-    else if (isSelected === false)
-      outsetVariant = isBeingPressed ? "inset" : "outset";
-  }
   const className = clsx(
     `btn`,
     `btn-${sizeVariant}`,

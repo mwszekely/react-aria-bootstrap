@@ -21,7 +21,7 @@ export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange
     ButtonStructure,
     {
       fillVariant: fillVariantU ?? "filled",
-      outsetVariant: outsetVariantU ?? "inset",
+      outsetVariant: outsetVariantU ?? null,
       isDisabled,
       isPending,
       isBeingPressed: isPressed,

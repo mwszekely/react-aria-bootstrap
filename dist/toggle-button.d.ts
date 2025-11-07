@@ -1,7 +1,7 @@
 import { UseAsyncToSyncParameters } from "async-to-sync/react";
 import { PropsWithChildren } from "react";
 import { ButtonStructureProps } from "./util/button-structure";
-export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">, Partial<Pick<ButtonStructureProps, "outsetVariant" | "fillVariant" | "themeVariant" | "sizeVariant" | "outsetVariant" | "themeSpinnerVariant">> {
+export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">, Partial<Pick<ButtonStructureProps, "fillVariant" | "themeVariant" | "sizeVariant" | "outsetVariant" | "themeSpinnerVariant">> {
     selected: boolean;
     disabled?: boolean | null | undefined;
     readOnly?: boolean | null | undefined;
