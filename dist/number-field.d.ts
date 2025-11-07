@@ -2,7 +2,7 @@ import { ValidationError } from "@react-types/shared";
 import { ReactNode } from "react";
 import { TextFieldProps } from "./text-field";
 export interface NumberFieldProps extends Pick<TextFieldProps, "variantSize" | "widthUnit" | "width" | "inline" | "noSpinner" | "minWidth"> {
-    value: number | null;
+    value: number | null | undefined;
     min?: number;
     max?: number;
     label?: ReactNode;
@@ -15,7 +15,7 @@ export interface NumberFieldProps extends Pick<TextFieldProps, "variantSize" | "
     step?: number;
     placeholder?: number | string;
     validate?: (value: number) => (true | ValidationError | null | undefined);
-    onChange: (newValue: number | null) => void;
+    onChange: (newValue: number | null | undefined) => void;
     noButtons?: boolean;
     formatOptions?: Intl.NumberFormatOptions;
 }

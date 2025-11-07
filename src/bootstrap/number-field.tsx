@@ -7,7 +7,7 @@ import { ActionButton } from "./button";
 import { TextFieldProps, TextFieldStructure, useIsInInputGroup } from "./text-field";
 
 export interface NumberFieldProps extends Pick<TextFieldProps, "variantSize" | "widthUnit" | "width" | "inline" | "noSpinner" | "minWidth"> {
-    value: number | null;
+    value: number | null | undefined;
     min?: number;
     max?: number;
     label?: ReactNode;
@@ -20,7 +20,7 @@ export interface NumberFieldProps extends Pick<TextFieldProps, "variantSize" | "
     step?: number;
     placeholder?: number | string;
     validate?: (value: number) => (true | ValidationError | null | undefined);
-    onChange: (newValue: number | null) => void;
+    onChange: (newValue: number | null | undefined) => void;
     noButtons?: boolean;
     formatOptions?: Intl.NumberFormatOptions
 }
@@ -32,14 +32,16 @@ export function NumberField({ value, min, max, description, validate, formatOpti
     variantSize ??= "md";
     labelPosition ??= "before";
     widthUnit ??= "ch";
-    const { syncOutput, pending, syncDebounce, asyncDebounce } = useAsyncToSync<void, [number], [number]>({
+    const { syncOutput, pending, syncDebounce, asyncDebounce } = useAsyncToSync<void, [number | undefined], [number | undefined]>({
         asyncInput: (v) => {
+            if (v == null || !isFinite(v))
+                v = undefined;
             const ret = onChange(v);
             return ret;
         },
         capture: (e) => {
             setOptimistic(e);
-            return [+e];
+            return [e];
         }
     });
 
@@ -107,7 +109,7 @@ export function NumberField({ value, min, max, description, validate, formatOpti
             groupProps={groupProps}
             pending={pending}
             validationErrors={validationErrors}
-            valueUsed={valueUsed}
+            valueUsed={valueUsed ?? null}
             description={description}
             labelPosition={labelPosition}
             // maxLength={maxLength}

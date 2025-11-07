@@ -14,12 +14,14 @@ export function NumberField({ value, min, max, description, validate, formatOpti
   widthUnit ??= "ch";
   const { syncOutput, pending, syncDebounce, asyncDebounce } = useAsyncToSync({
     asyncInput: (v) => {
+      if (v == null || !isFinite(v))
+        v = void 0;
       const ret2 = onChange(v);
       return ret2;
     },
     capture: (e) => {
       setOptimistic(e);
-      return [+e];
+      return [e];
     }
   });
   const valueUsed = pending ? optimistic : value;
@@ -78,7 +80,7 @@ export function NumberField({ value, min, max, description, validate, formatOpti
       groupProps,
       pending,
       validationErrors,
-      valueUsed,
+      valueUsed: valueUsed ?? null,
       description,
       labelPosition,
       noSpinner,
