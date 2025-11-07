@@ -4,7 +4,7 @@ import { mergeProps, useToggleButton } from "react-aria";
 import { useToggleState } from "react-stately";
 import { ButtonStructure, ButtonStructureProps } from "./util/button-structure";
 
-export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">, Partial<Pick<ButtonStructureProps, "outsetVariant" | "fillVariant" | "themeVariant" | "sizeVariant" | "outsetVariant" | "themeSpinnerVariant">> {
+export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">, Partial<Pick<ButtonStructureProps, "fillVariant" | "themeVariant" | "sizeVariant" | "outsetVariant" | "themeSpinnerVariant">> {
     selected: boolean;
     disabled?: boolean | null | undefined;
     readOnly?: boolean | null | undefined;
@@ -27,7 +27,7 @@ export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange
 
     return (<ButtonStructure 
         fillVariant={fillVariantU ?? "filled"} 
-        outsetVariant={outsetVariantU ?? "inset"} 
+        outsetVariant={outsetVariantU ?? null} 
         isDisabled={isDisabled} 
         isPending={isPending} 
         isBeingPressed={isPressed} 

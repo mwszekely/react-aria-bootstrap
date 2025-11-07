@@ -26,12 +26,12 @@ export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinne
     themeVariant ??= "primary";
 
 
-    if (isSelected != null) {
+    /*if (isSelected != null) {
         if (isSelected)
             outsetVariant = (isBeingPressed? 'inset' : 'inset');
         else if (isSelected === false)
             outsetVariant = (isBeingPressed? 'inset' : 'outset');
-    }
+    }*/
     const className = clsx(
         `btn`,
         `btn-${sizeVariant}`,
