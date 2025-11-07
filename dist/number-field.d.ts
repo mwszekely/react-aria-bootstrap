@@ -15,7 +15,7 @@ export interface NumberFieldProps extends Pick<TextFieldProps, "variantSize" | "
     step?: number;
     placeholder?: number | string;
     validate?: (value: number) => (true | ValidationError | null | undefined);
-    onChange: (newValue: number | null | undefined) => void;
+    onChange: (newValue: number | undefined) => void;
     noButtons?: boolean;
     formatOptions?: Intl.NumberFormatOptions;
 }
