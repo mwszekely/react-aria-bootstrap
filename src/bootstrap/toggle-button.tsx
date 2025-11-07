@@ -11,7 +11,7 @@ export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [],
     onChange: ((pressed: boolean) => (void | Promise<void>)) | null | undefined;
 }
 
-export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, outsetVariant, selected: selectedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, themeSpinnerVariant: themeSpinnerVariantU, ...props}: PropsWithChildren<ToggleButtonProps>) {
+export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, selected: selectedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, themeSpinnerVariant: themeSpinnerVariantU, ...props}: PropsWithChildren<ToggleButtonProps>) {
     const ref = useRef<HTMLDivElement>(null);
     const { syncOutput, pending, syncDebounce, asyncDebounce } = useAsyncToSync({
         asyncInput: onChangeU,
@@ -27,7 +27,7 @@ export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange
 
     return (<ButtonStructure 
         fillVariant={fillVariantU ?? "filled"} 
-        outsetVariant={outsetVariant ?? "inset"} 
+        outsetVariant={outsetVariantU ?? "inset"} 
         isDisabled={isDisabled} 
         isPending={isPending} 
         isBeingPressed={isPressed} 

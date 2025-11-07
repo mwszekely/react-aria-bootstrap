@@ -7,4 +7,4 @@ export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [],
     readOnly?: boolean | null | undefined;
     onChange: ((pressed: boolean) => (void | Promise<void>)) | null | undefined;
 }
-export declare function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, outsetVariant, selected: selectedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, themeSpinnerVariant: themeSpinnerVariantU, ...props }: PropsWithChildren<ToggleButtonProps>): import("react").JSX.Element;
+export declare function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, selected: selectedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, themeSpinnerVariant: themeSpinnerVariantU, ...props }: PropsWithChildren<ToggleButtonProps>): import("react").JSX.Element;
