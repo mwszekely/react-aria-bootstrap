@@ -190,8 +190,8 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ type,
             updateAutoWidth(ref2.current);
     }, [width, valueUsed]);
 
-    function columnize(input: any, c?: string) { return !c? null :  <div className={clsx("col-auto", c)}>{input}</div>; }
-    function textInputize(input: any, c?: string) { return !c? null : isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : <div className="input-group-text">{input}</div>; }
+    function columnize(input: any, c?: string) { return <div className={clsx("col-auto", c)}>{input}</div>; }
+    function textInputize(input: any) { return isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : <div className="input-group-text">{input}</div>; }
 
     let description2 = <div {...mergeProps(descriptionProps, { className: clsx("form-text") })}>{description}</div>;
     let error2 = <div {...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") })}>{validationErrors.join(' ')}</div>;
