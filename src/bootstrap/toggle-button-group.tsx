@@ -7,7 +7,7 @@ import { ButtonStructure, ButtonStructureProps } from "./util/button-structure";
 
 export type ToggleButtonGroupProps = ToggleButtonGroupSingleProps | ToggleButtonGroupMultiProps;
 
-interface ToggleButtonGroupSharedProps extends Pick<ButtonStructureProps, 'fillVariant' | 'sizeVariant'> {
+interface ToggleButtonGroupSharedProps extends Pick<ButtonStructureProps, 'sizeVariant'> {
     disallowEmptySelection?: boolean | null | undefined;
     orientation?: "vertical" | "horizontal";
     className?: string;
