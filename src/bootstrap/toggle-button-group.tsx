@@ -7,10 +7,9 @@ import { ButtonStructure, ButtonStructureProps } from "./util/button-structure";
 
 export type ToggleButtonGroupProps = ToggleButtonGroupSingleProps | ToggleButtonGroupMultiProps;
 
-interface ToggleButtonGroupSharedProps {
+interface ToggleButtonGroupSharedProps extends Pick<ButtonStructureProps, 'fillVariant' | 'sizeVariant'> {
     disallowEmptySelection?: boolean | null | undefined;
     orientation?: "vertical" | "horizontal";
-    variantSize?: "sm" | "md" | "lg";
     className?: string;
     disabled?: boolean;
 }
@@ -27,9 +26,9 @@ interface ToggleButtonGroupMultiProps extends ToggleButtonGroupSharedProps {
     selectionMode: "multiple";
 }
 
-const ButtonGroupSize = createContext<Required<ToggleButtonGroupProps>["variantSize"]>("md");
+const ButtonGroupSize = createContext<Required<ToggleButtonGroupProps>['sizeVariant']>("md");
 
-export interface ToggleButtonGroupItemProps extends Pick<ButtonStructureProps, "themeVariant" | "themeSpinnerVariant" | "fillVariant"> {
+export interface ToggleButtonGroupItemProps extends Pick<ButtonStructureProps, "themeVariant" | "themeSpinnerVariant" | "fillVariant" | "outsetVariant"> {
     id: Key;
     disabled?: boolean | undefined | null;
 }
@@ -48,7 +47,7 @@ export function ToggleButtonGroup(props: PropsWithChildren<ToggleButtonGroupProp
 
 
 
-function ToggleButtonGroupSingle({ disabled: disabledU, variantSize: variantSizeU, selectionMode, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }: PropsWithChildren<ToggleButtonGroupSingleProps>) {
+function ToggleButtonGroupSingle({ disabled: disabledU, sizeVariant: variantSizeU, selectionMode, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }: PropsWithChildren<ToggleButtonGroupSingleProps>) {
     const ref = useRef<HTMLDivElement>(null);
 
     const { syncOutput } = useAsyncToSync<void, [a: Key], [a: Set<Key>]>({
@@ -70,7 +69,7 @@ function ToggleButtonGroupSingle({ disabled: disabledU, variantSize: variantSize
     )
 }
 
-function ToggleButtonGroupMulti({ disabled: disabledU, variantSize: variantSizeU, selectionMode, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }: PropsWithChildren<ToggleButtonGroupMultiProps>) {
+function ToggleButtonGroupMulti({ disabled: disabledU, sizeVariant: variantSizeU, selectionMode, disallowEmptySelection: disallowEmptySelectionU, orientation: orientationU, onChange: onChangeU, selected, children, ...restProps }: PropsWithChildren<ToggleButtonGroupMultiProps>) {
     const ref = useRef<HTMLDivElement>(null);
 
     const { syncOutput } = useAsyncToSync({
@@ -91,12 +90,25 @@ function ToggleButtonGroupMulti({ disabled: disabledU, variantSize: variantSizeU
     )
 }
 
-export function ToggleButtonGroupItem({ children, id, disabled: disabledU, fillVariant, themeVariant, themeSpinnerVariant, ...props }: PropsWithChildren<ToggleButtonGroupItemProps>) {
+export function ToggleButtonGroupItem({ children, id, disabled: disabledU, fillVariant, themeVariant, outsetVariant, themeSpinnerVariant,  ...props }: PropsWithChildren<ToggleButtonGroupItemProps>) {
     const ref = useRef<HTMLDivElement>(null);
     const state = useContext(ToggleButtonGroupContext);
     const isDisabled = (disabledU || false);
     const { buttonProps, isPressed, isSelected } = useToggleButtonGroupItem({ id, isDisabled }, state, ref);
     const sizeVariant = useContext(ButtonGroupSize);
 
-    return <ButtonStructure themeVariant={themeVariant ?? null} isBeingPressed={isPressed} themeSpinnerVariant={themeSpinnerVariant ?? null} fillVariant={fillVariant ?? null} sizeVariant={sizeVariant} isSelected={isSelected} outsetVariant={isPressed ? "inset" : "outset"} isDisabled={isDisabled} isPending={false} {...mergeProps(buttonProps, props)}>{children}</ButtonStructure>
+    return (
+        <ButtonStructure
+            themeVariant={themeVariant ?? null}
+            isBeingPressed={isPressed}
+            themeSpinnerVariant={themeSpinnerVariant ?? null}
+            fillVariant={fillVariant ?? null}
+            sizeVariant={sizeVariant}
+            isSelected={isSelected}
+            outsetVariant={outsetVariant ?? null}
+            isDisabled={isDisabled}
+            isPending={false}
+            {...mergeProps(buttonProps, props)}>{children}
+        </ButtonStructure>
+    );
 }
