@@ -293,7 +293,7 @@ $bonus-theme-colors: (
         // The part that hides the top part of the button
         --shadow2-default: inset 0 0px 0 0px var(--bs-body-bg);
         --shadow2-pressing: inset 0 var(--bs-btn-z-height-base) 0 0px var(--bs-body-bg);
-        --shadow2-pressed: inset 0 var(--bs-btn-z-height-base) 0 0px var(--shadow2-pressed);
+        --shadow2-pressed: inset 0 var(--bs-btn-z-height-base) 0 0px var(--bs-btn-pseudo-border-color-shade);
 
         // The top half of the outline
         --shadow3-default: inset 0 0px 0 1px var(--bs-btn-pseudo-border-color);
