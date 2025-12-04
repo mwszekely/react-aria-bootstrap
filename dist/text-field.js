@@ -127,10 +127,10 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ type
       updateAutoWidth(ref2.current);
   }, [width, valueUsed]);
   function columnize(input, c) {
-    return /* @__PURE__ */ jsx("div", { className: clsx("col-auto", c), children: input });
+    return !input ? null : /* @__PURE__ */ jsx("div", { className: clsx("col-auto", c), children: input });
   }
   function textInputize(input) {
-    return isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : /* @__PURE__ */ jsx("div", { className: "input-group-text", children: input });
+    return !input ? null : isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : /* @__PURE__ */ jsx("div", { className: "input-group-text", children: input });
   }
   let description2 = /* @__PURE__ */ jsx("div", { ...mergeProps(descriptionProps, { className: clsx("form-text") }), children: description });
   let error2 = /* @__PURE__ */ jsx("div", { ...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") }), children: validationErrors.join(" ") });
