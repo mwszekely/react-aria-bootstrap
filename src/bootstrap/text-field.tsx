@@ -193,10 +193,11 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ type,
     function columnize(input: any, c?: string) { return !input? null : <div className={clsx("col-auto", c)}>{input}</div>; }
     function textInputize(input: any) { return !input? null : isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : <div className="input-group-text">{input}</div>; }
 
+    const inputClsx = clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`);
     let description2 = <div {...mergeProps(descriptionProps, { className: clsx("form-text") })}>{description}</div>;
     let error2 = <div {...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") })}>{validationErrors.join(' ')}</div>;
-    const measure2 = <div ref={ref2} aria-hidden="true" className={`form-control form-control-measure form-control-${variantSize}`}>{(widthTextValueOverride ?? valueUsed)}</div>;
-    const input2 = <input {...mergeProps(inputProps, { type: type ?? "text", style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } as CSSProperties : { minWidth }, className: clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) })} ref={ref} />;
+    const measure2 = <div ref={ref2} aria-hidden="true" className={clsx(`form-control-measure`, inputClsx)}>{(widthTextValueOverride ?? valueUsed)}</div>;
+    const input2 = <input {...mergeProps(inputProps, { type: type ?? "text", style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } as CSSProperties : { minWidth }, className: inputClsx })} ref={ref} />;
     const label2 = labelPosition == "before" && <label {...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") })}>{label}</label>;
 
 
