@@ -123,7 +123,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ type
   });
   const ref2 = useRef(null);
   useEffect(() => {
-    if (ref2.current?.scrollWidth && width == "auto")
+    if (width == "auto" && ref2.current?.scrollWidth)
       updateAutoWidth(ref2.current);
   }, [width, valueUsed]);
   function columnize(input, c) {
@@ -134,11 +134,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ type
   }
   let description2 = /* @__PURE__ */ jsx("div", { ...mergeProps(descriptionProps, { className: clsx("form-text") }), children: description });
   let error2 = /* @__PURE__ */ jsx("div", { ...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") }), children: validationErrors.join(" ") });
-  const measure2 = /* @__PURE__ */ jsx("div", { ref: (element) => {
-    if (element) updateAutoWidth(element);
-    return () => {
-    };
-  }, "aria-hidden": "true", className: `form-control form-control-measure form-control-${variantSize}`, children: widthTextValueOverride ?? valueUsed });
+  const measure2 = /* @__PURE__ */ jsx("div", { ref: ref2, "aria-hidden": "true", className: `form-control form-control-measure form-control-${variantSize}`, children: widthTextValueOverride ?? valueUsed });
   const input2 = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { type: type ?? "text", style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } : { minWidth }, className: clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) }), ref });
   const label2 = labelPosition == "before" && /* @__PURE__ */ jsx("label", { ...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") }), children: label });
   let noSpinnerPadding = inALiteralActualInputGroupAlready || noSpinner || mode == "solo-input-group" || mode == "inline-solo-input-group" || mode == "embedded-input-group";

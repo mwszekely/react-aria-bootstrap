@@ -186,7 +186,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ type,
 
     const ref2 = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (ref2.current?.scrollWidth && width == "auto")
+        if (width == "auto" && ref2.current?.scrollWidth )
             updateAutoWidth(ref2.current);
     }, [width, valueUsed]);
 
@@ -195,7 +195,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ type,
 
     let description2 = <div {...mergeProps(descriptionProps, { className: clsx("form-text") })}>{description}</div>;
     let error2 = <div {...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") })}>{validationErrors.join(' ')}</div>;
-    const measure2 = <div ref={(element) => { if (element) updateAutoWidth(element); return () => { } }} aria-hidden="true" className={`form-control form-control-measure form-control-${variantSize}`}>{(widthTextValueOverride ?? valueUsed)}</div>;
+    const measure2 = <div ref={ref2} aria-hidden="true" className={`form-control form-control-measure form-control-${variantSize}`}>{(widthTextValueOverride ?? valueUsed)}</div>;
     const input2 = <input {...mergeProps(inputProps, { type: type ?? "text", style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } as CSSProperties : { minWidth }, className: clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`) })} ref={ref} />;
     const label2 = labelPosition == "before" && <label {...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") })}>{label}</label>;
 
