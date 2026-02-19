@@ -41,7 +41,7 @@ export interface TextFieldProps {
     variantSize?: "sm" | "md" | "lg";
     //inline?: boolean;
     labelPosition?: "before" | "hidden";
-    width?: number | "auto";    // if maxLength is provided, "auto" is based off that, otherwise the width is based on the content.
+    width?: number | "auto";
     minWidth?: string;          // A CSS value; recommended if setting width to auto.
     widthUnit?: "ch" | "ic";
     validate?: (input: any) => (true | ValidationError | undefined | null);
@@ -72,19 +72,19 @@ export function TextField({ type, text, autoComplete, onChange, validate, classN
         isInvalid,
         validationErrors,
         validationDetails
-    } = useTextField({ 
-        type: type ?? "text", 
-        value: valueUsed, 
-        onChange: syncOutput, 
-        placeholder, 
-        label: labelPosition == 'before'? label : undefined,
-        ["aria-label"]: labelPosition == 'hidden'? label as string : undefined, 
-        inputMode, 
-        maxLength, 
-        minLength, 
-        name, 
-        isDisabled: disabled, 
-        isReadOnly: readOnly, 
+    } = useTextField({
+        type: type ?? "text",
+        value: valueUsed,
+        onChange: syncOutput,
+        placeholder,
+        label: labelPosition == 'before' ? label : undefined,
+        ["aria-label"]: labelPosition == 'hidden' ? label as string : undefined,
+        inputMode,
+        maxLength,
+        minLength,
+        name,
+        isDisabled: disabled,
+        isReadOnly: readOnly,
         autoComplete,
         validate
     }, ref);
@@ -100,8 +100,8 @@ export function TextField({ type, text, autoComplete, onChange, validate, classN
 
     return (
         <TextFieldStructure
-        className={className}
-        type={type}
+            className={className}
+            type={type}
             mode={mode}
             ref={ref}
             isInvalid={isInvalid}
@@ -163,12 +163,9 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ type,
         ++columns;
 
     if (width == "auto") {
-        if (maxLength)
-            width = maxLength;
-        else {
-            width = "auto";
-            widthUnit = 'px' as never;
-        }
+        width = "auto";
+        widthUnit = 'px' as never;
+
     }
 
     const inALiteralActualInputGroupAlready = useIsInInputGroup();
@@ -190,14 +187,14 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ type,
             updateAutoWidth(ref2.current);
     }, [width, valueUsed]);
 
-    function columnize(input: any, c?: string) { return !input? null : <div className={clsx("col-auto", c)}>{input}</div>; }
-    function textInputize(input: any) { return !input? null : isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : <div className="input-group-text">{input}</div>; }
+    function columnize(input: any, c?: string) { return !input ? null : <div className={clsx("col-auto", c)}>{input}</div>; }
+    function textInputize(input: any) { return !input ? null : isValidElement(input) ? cloneElement(input, mergeProps({ className: "input-group-text" })) : <div className="input-group-text">{input}</div>; }
 
     const inputClsx = clsx(mode == "embedded-input-group" && className, "form-control", pending && "pending", width && `form-control-explicit-width form-control-explicit-width-${widthUnit}`, `form-control-${variantSize}`);
     let description2 = <div {...mergeProps(descriptionProps, { className: clsx("form-text") })}>{description}</div>;
     let error2 = <div {...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") })}>{validationErrors.join(' ')}</div>;
     const measure2 = <div ref={ref2} aria-hidden="true" className={clsx(`form-control-measure`, inputClsx)}>{(widthTextValueOverride ?? valueUsed)}</div>;
-    const input2 = <input {...mergeProps(inputProps, { type: type ?? "text", style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } as CSSProperties : { minWidth }, className: inputClsx })} ref={ref} />;
+    const input2 = <input {...mergeProps(inputProps, { type: type ?? "text", maxLength, style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } as CSSProperties : { minWidth }, className: inputClsx })} ref={ref} />;
     const label2 = labelPosition == "before" && <label {...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") })}>{label}</label>;
 
 

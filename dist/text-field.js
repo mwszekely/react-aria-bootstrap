@@ -106,12 +106,8 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ type
   if (columns == 5)
     ++columns;
   if (width == "auto") {
-    if (maxLength)
-      width = maxLength;
-    else {
-      width = "auto";
-      widthUnit = "px";
-    }
+    width = "auto";
+    widthUnit = "px";
   }
   const inALiteralActualInputGroupAlready = useIsInInputGroup();
   const inInputGroup2 = mode == "solo-input-group" || mode == "embedded-input-group" || mode == "inline-solo-input-group" || inALiteralActualInputGroupAlready;
@@ -136,7 +132,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ type
   let description2 = /* @__PURE__ */ jsx("div", { ...mergeProps(descriptionProps, { className: clsx("form-text") }), children: description });
   let error2 = /* @__PURE__ */ jsx("div", { ...mergeProps(errorMessageProps, { className: clsx("invalid-feedback", !isInvalid && "invisible") }), children: validationErrors.join(" ") });
   const measure2 = /* @__PURE__ */ jsx("div", { ref: ref2, "aria-hidden": "true", className: clsx(`form-control-measure`, inputClsx), children: widthTextValueOverride ?? valueUsed });
-  const input2 = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { type: type ?? "text", style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } : { minWidth }, className: inputClsx }), ref });
+  const input2 = /* @__PURE__ */ jsx("input", { ...mergeProps(inputProps, { type: type ?? "text", maxLength, style: width ? { "--form-control-explicit-width": (measuredWidth || width)?.toString(), minWidth } : { minWidth }, className: inputClsx }), ref });
   const label2 = labelPosition == "before" && /* @__PURE__ */ jsx("label", { ...mergeProps(labelProps, { className: clsx("form-label", (mode == "inline-solo-input-group" || mode == "inline-separate") && "col-form-label") }), children: label });
   let noSpinnerPadding = inALiteralActualInputGroupAlready || noSpinner || mode == "solo-input-group" || mode == "inline-solo-input-group" || mode == "embedded-input-group";
   if (mode == "inline-separate") {
