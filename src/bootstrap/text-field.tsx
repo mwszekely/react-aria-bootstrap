@@ -178,15 +178,15 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure({ type,
     const spinner = noSpinner ? null : (pending || (inInputGroup2)) && <PendingSpinner label={"In progress..."} pending={pending ?? false} variantSize={variantSize == "lg" ? "md" : "sm"} />;
 
 
-    const updateAutoWidth = useEffectEvent((e: Element) => {
+    const updateAutoWidth = useEffectEvent((e: Element | null | undefined) => {
         // Prevent incorrect measurements when the element is invisible
-        if (e.scrollWidth || ((widthTextValueOverride ?? valueUsed?.toString() ?? "") == ""))
-            setMeasuredWidth((e.scrollWidth).toString() ?? "");
+        if (e?.scrollWidth || ((widthTextValueOverride ?? valueUsed?.toString() ?? "") == ""))
+            setMeasuredWidth((e?.scrollWidth || "0").toString());
     });
 
     const ref2 = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (width == "auto" && ref2.current?.scrollWidth )
+        if (width == "auto" && (ref2.current?.scrollWidth || valueUsed != ""))
             updateAutoWidth(ref2.current);
     }, [width, valueUsed]);
 

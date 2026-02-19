@@ -118,12 +118,12 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ type
   const [measuredWidth, setMeasuredWidth] = useState("");
   const spinner = noSpinner ? null : (pending || inInputGroup2) && /* @__PURE__ */ jsx(PendingSpinner, { label: "In progress...", pending: pending ?? false, variantSize: variantSize == "lg" ? "md" : "sm" });
   const updateAutoWidth = useEffectEvent((e) => {
-    if (e.scrollWidth || (widthTextValueOverride ?? valueUsed?.toString() ?? "") == "")
-      setMeasuredWidth(e.scrollWidth.toString() ?? "");
+    if (e?.scrollWidth || (widthTextValueOverride ?? valueUsed?.toString() ?? "") == "")
+      setMeasuredWidth((e?.scrollWidth || "0").toString());
   });
   const ref2 = useRef(null);
   useEffect(() => {
-    if (width == "auto" && ref2.current?.scrollWidth)
+    if (width == "auto" && (ref2.current?.scrollWidth || valueUsed != ""))
       updateAutoWidth(ref2.current);
   }, [width, valueUsed]);
   function columnize(input, c) {
