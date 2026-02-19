@@ -123,7 +123,7 @@ export const TextFieldStructure = forwardRef(function TextFieldStructure2({ type
   });
   const ref2 = useRef(null);
   useEffect(() => {
-    if (width == "auto" && (ref2.current?.scrollWidth || valueUsed != ""))
+    if (width == "auto" && (ref2.current?.scrollWidth || valueUsed == ""))
       updateAutoWidth(ref2.current);
   }, [width, valueUsed]);
   function columnize(input, c) {
