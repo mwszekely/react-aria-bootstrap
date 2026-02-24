@@ -1,7 +1,9 @@
 import { useAsyncToSync, UseAsyncToSyncParameters } from 'async-to-sync/react';
 import { forwardRef, PropsWithChildren, Ref } from 'react';
-import { AriaButtonProps, PressEvent, useButton, useObjectRef } from 'react-aria';
+import { AriaButtonProps, PressEvent } from 'react-aria';
 import { ButtonStructure, type ButtonStructureProps } from './util/button-structure';
+
+import { Button as RACButton } from "react-aria-components";
 
 export { ButtonStructure, type ButtonStructureProps };
 
@@ -18,8 +20,8 @@ export interface ActionButtonProps extends
     "aria-label"?: string | null | undefined;
 }
 
-export const ActionButton = forwardRef(function ActionButton({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...props }: PropsWithChildren<ActionButtonProps>, refU: Ref<HTMLButtonElement>) {
-    const ref = useObjectRef(refU);
+export const ActionButton = forwardRef(function ActionButton({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...restProps }: PropsWithChildren<ActionButtonProps>, refU: Ref<HTMLButtonElement>) {
+    //const ref = useObjectRef(refU);
 
     const {
         asyncDebounce,
@@ -31,7 +33,7 @@ export const ActionButton = forwardRef(function ActionButton({ themeVariant, "ar
         hasResult,
         pending,
         syncDebounce,
-        syncOutput
+        syncOutput: onPress
     } = useAsyncToSync({
         asyncInput: onPressAsync,
         debounce: debounce,
@@ -39,9 +41,8 @@ export const ActionButton = forwardRef(function ActionButton({ themeVariant, "ar
     });
 
     const isPending = (pending || asyncDebounce || syncDebounce || false);
-    const isDisabled = (props.isDisabled || isPending);
-    let { buttonProps, isPressed } = useButton({ elementType: 'button', onPress: syncOutput, "aria-label": ariaLabel ?? undefined, ...props }, ref);
-    let { children, className } = props;
+    // const isDisabled = (props.isDisabled || isPending);
+    //let { buttonProps, isPressed } = useButton({ elementType: 'button', onPress: syncOutput, "aria-label": ariaLabel ?? undefined, ...props }, ref);
 
     themeVariant = (themeVariant ?? "primary");
     themeSpinnerVariant = (themeSpinnerVariant ?? "primary");
@@ -49,8 +50,24 @@ export const ActionButton = forwardRef(function ActionButton({ themeVariant, "ar
     fillVariant ??= "filled";
     outsetVariant ??= "flat";
 
-    if (hasError)
-        themeVariant = 'danger';
+   // if (hasError)
+    //    themeVariant = 'danger';
 
-    return <ButtonStructure className={className} fillVariant={fillVariant} isSelected={null} themeSpinnerVariant={themeSpinnerVariant} isDisabled={isDisabled} isPending={isPending} isBeingPressed={isPressed} sizeVariant={sizeVariant} outsetVariant={outsetVariant} themeVariant={themeVariant ?? "primary"} {...buttonProps}>{children}</ButtonStructure>
+    return (
+        <RACButton onPress={onPress} isPending={isPending} {...restProps} ref={refU} render={(props, { isDisabled, isFocusVisible, isFocused, isHovered, isPending, isPressed }) => {
+            return (
+                <ButtonStructure
+                    fillVariant={fillVariant}
+                    isSelected={null}
+                    themeSpinnerVariant={themeSpinnerVariant}
+                    isDisabled={isDisabled || isPending}
+                    isPending={isPending}
+                    isBeingPressed={isPressed}
+                    sizeVariant={sizeVariant}
+                    outsetVariant={outsetVariant}
+                    themeVariant={themeVariant ?? "primary"} {...props} />)
+        }} />
+    )
+
+    //return <ButtonStructure className={className} {...buttonProps}>{children}</ButtonStructure>
 })

@@ -2,11 +2,10 @@
 import { jsx } from "react/jsx-runtime";
 import { useAsyncToSync } from "async-to-sync/react";
 import { forwardRef } from "react";
-import { useButton, useObjectRef } from "react-aria";
 import { ButtonStructure } from "./util/button-structure";
+import { Button as RACButton } from "react-aria-components";
 export { ButtonStructure };
-export const ActionButton = forwardRef(function ActionButton2({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...props }, refU) {
-  const ref = useObjectRef(refU);
+export const ActionButton = forwardRef(function ActionButton2({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...restProps }, refU) {
   const {
     asyncDebounce,
     hasError,
@@ -17,22 +16,33 @@ export const ActionButton = forwardRef(function ActionButton2({ themeVariant, "a
     hasResult,
     pending,
     syncDebounce,
-    syncOutput
+    syncOutput: onPress
   } = useAsyncToSync({
     asyncInput: onPressAsync,
     debounce,
     throttle
   });
   const isPending = pending || asyncDebounce || syncDebounce || false;
-  const isDisabled = props.isDisabled || isPending;
-  let { buttonProps, isPressed } = useButton({ elementType: "button", onPress: syncOutput, "aria-label": ariaLabel ?? void 0, ...props }, ref);
-  let { children, className } = props;
   themeVariant = themeVariant ?? "primary";
   themeSpinnerVariant = themeSpinnerVariant ?? "primary";
   sizeVariant = sizeVariant ?? "md";
   fillVariant ??= "filled";
   outsetVariant ??= "flat";
-  if (hasError)
-    themeVariant = "danger";
-  return /* @__PURE__ */ jsx(ButtonStructure, { className, fillVariant, isSelected: null, themeSpinnerVariant, isDisabled, isPending, isBeingPressed: isPressed, sizeVariant, outsetVariant, themeVariant: themeVariant ?? "primary", ...buttonProps, children });
+  return /* @__PURE__ */ jsx(RACButton, { onPress, isPending, ...restProps, ref: refU, render: (props, { isDisabled, isFocusVisible, isFocused, isHovered, isPending: isPending2, isPressed }) => {
+    return /* @__PURE__ */ jsx(
+      ButtonStructure,
+      {
+        fillVariant,
+        isSelected: null,
+        themeSpinnerVariant,
+        isDisabled: isDisabled || isPending2,
+        isPending: isPending2,
+        isBeingPressed: isPressed,
+        sizeVariant,
+        outsetVariant,
+        themeVariant: themeVariant ?? "primary",
+        ...props
+      }
+    );
+  } });
 });
