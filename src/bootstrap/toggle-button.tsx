@@ -4,14 +4,14 @@ import { mergeProps, useToggleButton } from "react-aria";
 import { useToggleState } from "react-stately";
 import { ButtonStructure, ButtonStructureProps } from "./util/button-structure";
 
-export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">, Partial<Pick<ButtonStructureProps, "fillVariant" | "themeVariant" | "sizeVariant" | "outsetVariant" | "themeSpinnerVariant">> {
+export interface ToggleButtonProps extends Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">, Partial<Pick<ButtonStructureProps, "fillVariant" | "themeVariant" | "sizeVariant" | "outsetVariant" | "themeSpinnerVariant" | "flush">> {
     selected: boolean;
     disabled?: boolean | null | undefined;
     readOnly?: boolean | null | undefined;
     onChange: ((pressed: boolean) => (void | Promise<void>)) | null | undefined;
 }
 
-export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, selected: selectedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, themeSpinnerVariant: themeSpinnerVariantU, ...props}: PropsWithChildren<ToggleButtonProps>) {
+export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange: onChangeU, selected: selectedU, readOnly: readOnlyU, children, fillVariant: fillVariantU, themeVariant: themeVariantU, outsetVariant: outsetVariantU, sizeVariant: sizeVariantU, flush: flushU, themeSpinnerVariant: themeSpinnerVariantU, ...props}: PropsWithChildren<ToggleButtonProps>) {
     const ref = useRef<HTMLDivElement>(null);
     const { syncOutput, pending, syncDebounce, asyncDebounce } = useAsyncToSync({
         asyncInput: onChangeU,
@@ -33,6 +33,7 @@ export function ToggleButton({ debounce, throttle, disabled: disabledU, onChange
         isBeingPressed={isPressed} 
         isSelected={state.isSelected} 
         sizeVariant={sizeVariantU ?? "md"}
+        flush={flushU ?? false}
         themeSpinnerVariant={themeSpinnerVariantU ?? "primary"}
         themeVariant={themeVariantU ?? "primary"} {...mergeProps(buttonProps, props, { className: "btn-toggle" })}>{children}</ButtonStructure>)
 }

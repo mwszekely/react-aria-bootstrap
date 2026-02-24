@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { forwardRef, useId } from "react";
 import { mergeProps } from "react-aria";
 import { PendingSpinner } from "../spinner";
-export const ButtonStructure = forwardRef(function ButtonStructure2({ themeSpinnerVariant, sizeVariant, fillVariant, themeVariant, outsetVariant, isPending, isSelected, isDisabled, isBeingPressed, children, ...props }, ref) {
+export const ButtonStructure = forwardRef(function ButtonStructure2({ themeSpinnerVariant, sizeVariant, fillVariant, themeVariant, outsetVariant, isPending, isSelected, isDisabled, isBeingPressed, flush, children, ...props }, ref) {
   const labelId = useId();
   sizeVariant ??= "md";
   outsetVariant ??= "inset";
@@ -22,6 +22,7 @@ export const ButtonStructure = forwardRef(function ButtonStructure2({ themeSpinn
     isPending && "pending",
     isSelected && "selected",
     isDisabled && "disabled",
+    flush && "btn-flush",
     isBeingPressed && "pressing"
   );
   return /* @__PURE__ */ jsxs("button", { ...mergeProps(props, { tabIndex: 0, className }), ref, children: [

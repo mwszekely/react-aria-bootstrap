@@ -156,6 +156,9 @@ $bonus-theme-colors: (
 .btn.btn-fill {
     --bs-btn-pseudo-border-color: var(--bs-theme-color-contrast);
     --bs-btn-pseudo-border-color-shade: color(from var(--bs-theme-color) srgb calc(r / 2) calc(g / 2) calc(b / 2) / 1);
+    &.btn-flush {
+        --bs-btn-pseudo-border-color: transparent;
+    }
     //--bs-btn-pseudo-border-color: green;
     //--bs-btn-pseudo-border-color-shade: red;
 }
@@ -173,6 +176,10 @@ $bonus-theme-colors: (
     --bs-btn-active-color: var(--bs-body-color);
     --bs-btn-pseudo-border-color: var(--bs-theme-color);//color(from var(--bs-theme-color) srgb calc(r / 2) calc(g / 2) calc(b / 2) / 1);
     --bs-btn-pseudo-border-color-shade: color(from var(--bs-theme-color) srgb calc(r / 2) calc(g / 2) calc(b / 2) / 1);
+
+    &.btn-flush {
+        --bs-btn-pseudo-border-color: transparent;
+    }
 
     &.btn-tactile-inset {
         [data-bs-theme="dark"] &,

@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 import { ButtonStructure } from "./util/button-structure";
 import { Button as RACButton } from "react-aria-components";
 export { ButtonStructure };
-export const ActionButton = forwardRef(function ActionButton2({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...restProps }, refU) {
+export const ActionButton = forwardRef(function ActionButton2({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, flush, onPress: onPressAsync, throttle, debounce, ...restProps }, refU) {
   const {
     asyncDebounce,
     hasError,
@@ -38,6 +38,7 @@ export const ActionButton = forwardRef(function ActionButton2({ themeVariant, "a
         isDisabled: isDisabled || isPending2,
         isPending: isPending2,
         isBeingPressed: isPressed,
+        flush: flush || false,
         sizeVariant,
         outsetVariant,
         themeVariant: themeVariant ?? "primary",

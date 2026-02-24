@@ -14,9 +14,10 @@ export interface ButtonStructureProps {
     isDisabled?: boolean;
     isBeingPressed?: boolean;
     isSelected?: boolean | null | undefined;
+    flush?: boolean;    // Removes the outline; requires outsetVariant be "flat" or "inset" to look right.
 }
 
-export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinnerVariant, sizeVariant, fillVariant, themeVariant, outsetVariant, isPending, isSelected, isDisabled, isBeingPressed, children, ...props }: PropsWithChildren<Required<ButtonStructureProps>>, ref: ForwardedRef<HTMLButtonElement>) {
+export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinnerVariant, sizeVariant, fillVariant, themeVariant, outsetVariant, isPending, isSelected, isDisabled, isBeingPressed, flush, children, ...props }: PropsWithChildren<Required<ButtonStructureProps>>, ref: ForwardedRef<HTMLButtonElement>) {
 
     const labelId = useId();
     sizeVariant ??= "md";
@@ -43,6 +44,7 @@ export const ButtonStructure = forwardRef(function ButtonStructure({ themeSpinne
         isPending && "pending",
         isSelected && "selected",
         isDisabled && "disabled",
+        flush && "btn-flush",
         (isBeingPressed) && "pressing"
     );
 

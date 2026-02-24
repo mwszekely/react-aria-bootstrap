@@ -9,7 +9,7 @@ export { ButtonStructure, type ButtonStructureProps };
 
 export interface ActionButtonProps extends
     Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">,
-    Pick<ButtonStructureProps, "themeVariant" | "fillVariant" | "outsetVariant" | "sizeVariant" | "themeSpinnerVariant">,
+    Pick<ButtonStructureProps, "themeVariant" | "fillVariant" | "outsetVariant" | "sizeVariant" | "themeSpinnerVariant" | "flush">,
     Pick<AriaButtonProps, "isDisabled"> {
     onPress?: (e: PressEvent) => (void | undefined | Promise<void | undefined>);
     className?: string;
@@ -20,7 +20,7 @@ export interface ActionButtonProps extends
     "aria-label"?: string | null | undefined;
 }
 
-export const ActionButton = forwardRef(function ActionButton({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, onPress: onPressAsync, throttle, debounce, ...restProps }: PropsWithChildren<ActionButtonProps>, refU: Ref<HTMLButtonElement>) {
+export const ActionButton = forwardRef(function ActionButton({ themeVariant, "aria-label": ariaLabel, themeSpinnerVariant, fillVariant, outsetVariant, sizeVariant, flush, onPress: onPressAsync, throttle, debounce, ...restProps }: PropsWithChildren<ActionButtonProps>, refU: Ref<HTMLButtonElement>) {
     //const ref = useObjectRef(refU);
 
     const {
@@ -63,6 +63,7 @@ export const ActionButton = forwardRef(function ActionButton({ themeVariant, "ar
                     isDisabled={isDisabled || isPending}
                     isPending={isPending}
                     isBeingPressed={isPressed}
+                    flush={flush || false}
                     sizeVariant={sizeVariant}
                     outsetVariant={outsetVariant}
                     themeVariant={themeVariant ?? "primary"} {...props} />)

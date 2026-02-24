@@ -108,6 +108,7 @@ export function ToggleButtonGroupItem({ children, id, disabled: disabledU, fillV
             outsetVariant={outsetVariant ?? null}
             isDisabled={isDisabled}
             isPending={false}
+            flush={false}
             {...mergeProps(buttonProps, props)}>{children}
         </ButtonStructure>
     );

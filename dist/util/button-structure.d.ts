@@ -9,6 +9,7 @@ export interface ButtonStructureProps {
     isDisabled?: boolean;
     isBeingPressed?: boolean;
     isSelected?: boolean | null | undefined;
+    flush?: boolean;
 }
 export declare const ButtonStructure: import("react").ForwardRefExoticComponent<Required<ButtonStructureProps> & {
     children?: import("react").ReactNode | undefined;
