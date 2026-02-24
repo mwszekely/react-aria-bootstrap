@@ -1,5 +1,5 @@
 "use strict";
-export { ActionButton } from "./button";
+export { ActionButton, ButtonStructure } from "./button";
 export { Checkbox } from "./checkbox";
 export { NumberField } from "./number-field";
 export { Radio } from "./radio";

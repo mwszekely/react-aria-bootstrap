@@ -1,4 +1,4 @@
-export { ActionButton, type ActionButtonProps } from "./button";
+export { ActionButton, ButtonStructure, type ActionButtonProps, type ButtonStructureProps } from "./button";
 export { Checkbox, type CheckboxProps } from "./checkbox";
 export { NumberField, type NumberFieldProps } from "./number-field";
 export { Radio, type RadioProps } from "./radio";

@@ -1,7 +1,9 @@
 import { useAsyncToSync, UseAsyncToSyncParameters } from 'async-to-sync/react';
 import { forwardRef, PropsWithChildren, Ref } from 'react';
 import { AriaButtonProps, PressEvent, useButton, useObjectRef } from 'react-aria';
-import { ButtonStructure, ButtonStructureProps } from './util/button-structure';
+import { ButtonStructure, type ButtonStructureProps } from './util/button-structure';
+
+export { ButtonStructure, type ButtonStructureProps };
 
 export interface ActionButtonProps extends
     Pick<UseAsyncToSyncParameters<[], [], never>, "throttle" | "debounce">,
